@@ -20,20 +20,24 @@ export const createUser = (state = initialState, action) => {
 }
 
 export const update = (username: string, password: string) => {
-  return {type: ActionTypes.UpdateCreateUser, username: username, password: password}
+  return {
+    type: ActionTypes.UpdateCreateUser,
+    username: username,
+    password: password
+  }
 }
 
 export const onClick = (username: string, password: string) => async (dispatch) => {
-  if (username === "") {return}
-  await authAPI.register(username, password).catch(error => {
-    console.log(error.response.status)
-  })
-  let response = await authAPI.login(username, password).catch(()=>{})
-  if (response !== undefined) {
+  if (username === "") {
+    return
+  }
+  await authAPI.register(username, password).catch(() => 1)
+  let response = await authAPI.login(username, password).catch(() => 1)
+  if (response !== 1) {
     dispatch(updateSwitcher(switcherCondition.mainMenu))
   }
 }
 
-export const back = () => async (dispatch) => {
-  dispatch(updateSwitcher(switcherCondition.startLoading))
+export const back = () => {
+  return updateSwitcher(switcherCondition.startMenu)
 }

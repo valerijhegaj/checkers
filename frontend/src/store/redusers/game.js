@@ -73,8 +73,8 @@ export const updateFrom = (from) => {
 }
 
 export const getBoard = (gamename) => async (dispatch) => {
-  const response = await gameAPI.getGame(gamename).catch(()=>0)
-  if (response === undefined) {
+  const response = await gameAPI.getGame(gamename).catch(() => 1)
+  if (response === 1) {
     return
   }
   let figures = new boardStorage()
@@ -87,7 +87,9 @@ export const getBoard = (gamename) => async (dispatch) => {
 
 export const createConnection = (gamename) => async (dispatch) => {
   await getBoard(gamename)(dispatch)
-  setTimeout(()=>{dispatch(createConnection(gamename))}, 1000)
+  setTimeout(() => {
+    dispatch(createConnection(gamename))
+  }, 1000)
 }
 
 export const onClickFigure = (i, j) => {
@@ -96,18 +98,18 @@ export const onClickFigure = (i, j) => {
 
 export const onClickEmpty = (i, j, gamename, from, to) =>
   async (dispatch) => {
-  if (to.length === 0) {
-    dispatch(updateTo({x: i, y: j}))
-    return
-  }
+    if (to.length === 0) {
+      dispatch(updateTo({x: i, y: j}))
+      return
+    }
 
-  const lastTo = to[to.length - 1]
-  if (i !== lastTo.x || j !== lastTo.y) {
-    dispatch(updateTo({x: i, y: j}))
-    return
+    const lastTo = to[to.length - 1]
+    if (i !== lastTo.x || j !== lastTo.y) {
+      dispatch(updateTo({x: i, y: j}))
+      return
+    }
+    let response = await gameAPI.move(gamename, from, to).catch(() => 0)
+    if (response !== undefined) {
+      dispatch(getBoard(gamename))
+    }
   }
-  let response = await gameAPI.move(gamename, from, to).catch(()=>0)
-  if (response !== undefined) {
-    dispatch(getBoard(gamename))
-  }
-}

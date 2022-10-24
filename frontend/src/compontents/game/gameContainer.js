@@ -1,9 +1,9 @@
 import {Game} from "./game";
-import Connect from "../../redux/react-redux/Connect";
 import {
   onClickEmpty,
   onClickFigure
-} from "../../usingRedux/redusers/game";
+} from "../../store/redusers/game";
+import {connect} from "react-redux";
 
 const mapStateToProps = (state) => {
   return {
@@ -11,6 +11,6 @@ const mapStateToProps = (state) => {
   }
 }
 
-const GameContainer = Connect(mapStateToProps, {onClickFigure, onClickEmpty})(Game)
+const GameContainer = connect(mapStateToProps, {onClickFigure, onClickEmpty})(Game)
 
 export default GameContainer

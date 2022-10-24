@@ -1,6 +1,6 @@
-import connect from "../../redux/react-redux/Connect";
 import JoinGame from "./joinGame";
-import {update, onClick} from "../../usingRedux/redusers/joinGame"
+import {update, onClick} from "../../store/redusers/joinGame"
+import {connect} from "react-redux";
 
 const mapPropsToState = (state) => {
   return {

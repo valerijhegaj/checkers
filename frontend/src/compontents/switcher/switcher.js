@@ -1,6 +1,6 @@
 import LoginContainer from "../login/loginContainer";
 import CreateUserContainer from "../creteUser/createUserContainer";
-import {switcherCondition} from "../../usingRedux/redusers/switcher";
+import {switcherCondition} from "../../store/redusers/switcher";
 import StartMenuContainer from "../startMenu/startMenuContainer";
 import MainMenuContainer from "../mainMenu/mainMenuContainer";
 import StartGameContainer from "../startGame/startGameContainer";

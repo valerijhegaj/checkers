@@ -1,6 +1,6 @@
-import Connect from "../../redux/react-redux/Connect";
 import {StartGame} from "./startGame";
-import {update, createFor2, createFor1} from "../../usingRedux/redusers/startGame";
+import {update, createFor2, createFor1} from "../../store/redusers/startGame";
+import {connect} from "react-redux";
 
 const mapStateToProps = (state) => {
   return {
@@ -8,6 +8,6 @@ const mapStateToProps = (state) => {
   }
 }
 
-const StartGameContainer = Connect(mapStateToProps, {update, createFor2, createFor1})(StartGame)
+const StartGameContainer = connect(mapStateToProps, {update, createFor2, createFor1})(StartGame)
 
 export default StartGameContainer

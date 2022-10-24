@@ -1,6 +1,6 @@
 import Login from "./login";
-import {onClick, update, back} from "../../usingRedux/redusers/login";
-import Connect from "../../redux/react-redux/Connect";
+import {onClick, update, back} from "../../store/redusers/login";
+import {connect} from "react-redux";
 
 const mapStateToProps = (state) => {
   return {
@@ -9,7 +9,7 @@ const mapStateToProps = (state) => {
 }
 
 const LoginContainer =
-  Connect(mapStateToProps,
+  connect(mapStateToProps,
     {update, onClick, back})(Login)
 
 export default LoginContainer

@@ -1,7 +1,7 @@
-import Connect from "../../redux/react-redux/Connect"
 import {MainMenu} from "./mainMenu";
-import {join, start} from "../../usingRedux/redusers/mainMenu";
+import {join, start} from "../../store/redusers/mainMenu";
+import {connect} from "react-redux";
 
-const MainMenuContainer = Connect(() => {}, {join, start})(MainMenu)
+const MainMenuContainer = connect(() => {return{state: undefined}}, {join, start})(MainMenu)
 
 export default MainMenuContainer

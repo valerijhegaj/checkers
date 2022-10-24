@@ -32,8 +32,8 @@ export const onClick = (gamename: string, password: string) => async (dispatch) 
   if (gamename === "") {
     return
   }
-  const response = await authAPI.loginGame(gamename, password).catch(() => 0)
-  if (response !== undefined) {
+  const response = await authAPI.loginGame(gamename, password).catch(() => 1)
+  if (response !== 1) {
     dispatch(updateGame(gamename))
     dispatch(createConnection(gamename))
     dispatch(updateSwitcher(switcherCondition.gameScreen))

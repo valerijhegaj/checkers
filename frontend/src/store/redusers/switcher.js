@@ -32,8 +32,12 @@ export const updateSwitcher = (condition) => {
 }
 
 export const startLoad = () => async (dispatch) => {
-  let error = await authAPI.checkAuth().catch(() => dispatch(updateSwitcher(switcherCondition.startMenu)))
-  if (typeof (error) != "undefined") {
+  let response = await authAPI.checkAuth().catch(
+    () => {
+      dispatch(updateSwitcher(switcherCondition.startMenu))
+      return 1
+    })
+  if (response !== 1) {
     dispatch(updateSwitcher(switcherCondition.mainMenu))
   }
 }

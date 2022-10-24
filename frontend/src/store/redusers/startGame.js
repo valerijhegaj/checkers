@@ -33,7 +33,7 @@ export const createFor2 = (gamename: string, password: string) => async (dispatc
     gamer0: 0,
     gamer1: 0
   }).catch(() => 1)
-  if (response !== undefined) {
+  if (response !== 1) {
     await authAPI.loginGame(gamename, password)
     dispatch(updateGame(gamename))
     dispatch(createConnection(gamename))
@@ -47,7 +47,7 @@ export const createFor1 = (gamename: string, password: string) => async (dispatc
     gamer1: 1,
     level1: 3
   }).catch(() => 1)
-  if (response !== undefined) {
+  if (response !== 1) {
     await authAPI.loginGame(gamename, password)
     dispatch(updateGame(gamename))
     dispatch(createConnection(gamename))
