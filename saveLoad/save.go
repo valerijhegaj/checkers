@@ -26,21 +26,21 @@ type Participants struct {
 	Level1 int `json:"level1"`
 }
 
-func GetSaveList(path string) ([]string, error) {
-	var saveList []string
-	files, err := ioutil.ReadDir(path)
-	if err != nil {
-		return saveList, err
-	}
-	for _, file := range files {
-		if !file.IsDir() && len(file.Name()) > 5 &&
-			file.Name()[len(file.Name())-5:len(file.Name())] == ".json" {
-			saveList = append(saveList, file.Name())
-		}
-	}
-
-	return saveList, err
-}
+//func GetSaveList(path string) ([]string, error) {
+//	var saveList []string
+//	files, err := ioutil.ReadDir(path)
+//	if err != nil {
+//		return saveList, err
+//	}
+//	for _, file := range files {
+//		if !file.IsDir() && len(file.Name()) > 5 &&
+//			file.Name()[len(file.Name())-5:len(file.Name())] == ".json" {
+//			saveList = append(saveList, file.Name())
+//		}
+//	}
+//
+//	return saveList, err
+//}
 
 type Save struct {
 	Field       core.Field
@@ -73,10 +73,7 @@ func (c *Save) initFromJsonSave(jsonSave *jsonSave) {
 	c.Winner = jsonSave.Winner
 }
 
-func (c *Save) GetRawSave() (
-	[]byte,
-	error,
-) {
+func (c *Save) GetRawSave() ([]byte, error) {
 	var helper jsonSave
 	helper.initFromSave(c)
 	return helper.getRawSave()
@@ -144,10 +141,7 @@ func (c *jsonSave) initFromSave(save *Save) {
 	c.takeFiguresFromField(save.Field)
 }
 
-func (c *jsonSave) getRawSave() (
-	[]byte,
-	error,
-) {
+func (c *jsonSave) getRawSave() ([]byte, error) {
 	return json.Marshal(c)
 }
 
