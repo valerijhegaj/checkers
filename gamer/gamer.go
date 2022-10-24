@@ -34,10 +34,7 @@ func (c Gamer) InitSave(save saveLoad.Save) {
 }
 
 // GetWinner if your turn and you can't move: you lose
-func (c Gamer) GetWinner() (
-	bool,
-	Gamer,
-) {
+func (c Gamer) GetWinner() (bool, Gamer) {
 	field := c.GetField()
 	var isCanMakeTurn [2]bool
 	var numberFigures [2]int
@@ -54,8 +51,5 @@ func (c Gamer) GetWinner() (
 	if numberFigures[1] == 0 || (!isCanMakeTurn[1] && c.Core.IsTurn(1)) {
 		return true, Gamer{0, c.Core}
 	}
-	//if !isCanMakeTurn[0] && c.Core.IsTurn(0) || !isCanMakeTurn[1] && c.Core.IsTurn(1) {
-	//	return true, Gamer{0, nil}
-	//}
 	return false, Gamer{0, nil}
 }
