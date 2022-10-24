@@ -5,19 +5,23 @@ type checkersFeature struct {
 }
 
 func (c checkersFeature) CheckMove(
-	from, to Coordinate,
-	gamerId int,
+	from, to Coordinate, gamerID int,
 ) bool {
-	if c.isGamerHasEater(gamerId) {
-		return c.isMoveToEat(from, to)
+	if c.isMoveToEat(from, to) {
+		return true
+	}
+	if c.isGamerHasEater(gamerID) {
+		return false
 	}
 	return true
 }
 
-func (c checkersFeature) isGamerHasEater(gamerId int) bool {
-	for key, figure := range c.desk.Figures {
-		if figure.GetOwnerID() == gamerId {
-			if figure.GetAvailableMovesToEat(c.desk, key) != nil {
+func (c checkersFeature) isGamerHasEater(gamerID int) bool {
+	coordinates, figures := c.desk.GetFigures(gamerID)
+	for i, figure := range figures {
+		from := coordinates[i]
+		if figure.GetOwnerID() == gamerID {
+			if figure.GetAvailableMovesToEat(c.desk, from) != nil {
 				return true
 			}
 		}
