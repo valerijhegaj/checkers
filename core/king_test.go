@@ -7,7 +7,7 @@ import (
 func TestKing_GetOwnerId(t *testing.T) {
 	king := King{0}
 
-	if king.GetOwnerId() != 0 {
+	if king.GetOwnerID() != 0 {
 		t.Error()
 	}
 }
@@ -104,7 +104,7 @@ func testFigure_Move(
 	if finish != _finish {
 		t.Error(messeage)
 	}
-	for ptr, _ := range checkField.Figures {
+	for ptr := range checkField.Figures {
 		if field.At(ptr) == fininshFigure {
 			if ptr != finish {
 				t.Error(messeage)
@@ -457,7 +457,7 @@ func TestKing_GetAvailableMoves(t *testing.T) {
 			}
 			delete(realMoves, ptr)
 		}
-		for key, _ := range realMoves {
+		for key := range realMoves {
 			t.Error("in moves expected:", key, ", but didn't state")
 		}
 	}

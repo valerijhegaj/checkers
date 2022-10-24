@@ -105,7 +105,7 @@ func (c *Field) GetFigures(gamerID int) ([]Coordinate, []Figure) {
 	var coordinates []Coordinate
 	var figures []Figure
 	for coordinate, figure := range c.Figures {
-		if figure.GetOwnerId() != gamerID {
+		if figure.GetOwnerID() != gamerID {
 			continue
 		}
 		coordinates = append(coordinates, coordinate)

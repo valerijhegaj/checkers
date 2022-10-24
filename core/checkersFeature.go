@@ -16,7 +16,7 @@ func (c checkersFeature) CheckMove(
 
 func (c checkersFeature) isGamerHasEater(gamerId int) bool {
 	for key, figure := range c.desk.Figures {
-		if figure.GetOwnerId() == gamerId {
+		if figure.GetOwnerID() == gamerId {
 			if figure.GetAvailableMovesToEat(c.desk, key) != nil {
 				return true
 			}

@@ -32,12 +32,12 @@ func Field(field *core.Field) string {
 		if figure == nil {
 			ans += "_ "
 		} else if reflect.TypeOf(figure) == reflect.TypeOf(core.Checker{}) {
-			if figure.GetOwnerId() == 1 {
+			if figure.GetOwnerID() == 1 {
 				ans += "\u001B[31m"
 			}
 			ans += "O \u001B[0m"
 		} else {
-			if figure.GetOwnerId() == 1 {
+			if figure.GetOwnerID() == 1 {
 				ans += "\u001B[31m"
 			}
 			ans += "K \u001B[0m"

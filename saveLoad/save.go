@@ -54,7 +54,7 @@ func (c *Save) putFiguresOnField(figures []figureInfo) {
 		if i.Figure == "Checker" {
 			c.Field.Figures[core.Coordinate{
 				i.X, i.Y,
-			}] = core.Checker{OwnerId: i.GamerId}
+			}] = core.Checker{OwnerID: i.GamerId}
 		} else if i.Figure == "King" {
 			c.Field.Figures[core.Coordinate{
 				i.X, i.Y,
@@ -130,7 +130,7 @@ func (c *jsonSave) takeFiguresFromField(field core.Field) {
 		c.Figures[i].X = coordinate.X
 		c.Figures[i].Y = coordinate.Y
 		c.Figures[i].Figure = reflect.TypeOf(figure).String()[5:]
-		c.Figures[i].GamerId = figure.GetOwnerId()
+		c.Figures[i].GamerId = figure.GetOwnerID()
 		i++
 	}
 }

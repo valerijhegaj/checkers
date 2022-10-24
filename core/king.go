@@ -4,7 +4,7 @@ type King struct {
 	OwnerId int
 }
 
-func (c King) GetOwnerId() int {
+func (c King) GetOwnerID() int {
 	return c.OwnerId
 }
 
@@ -105,7 +105,7 @@ func (c King) isMoveOne(desk *Field, from, to Coordinate) (
 				return false, false, desk.BordersLeft
 			}
 			food := desk.At(foodPosition)
-			if food.GetOwnerId() == c.GetOwnerId() {
+			if food.GetOwnerID() == c.GetOwnerID() {
 				return false, false, desk.BordersLeft
 			}
 			finishFoodPosition = foodPosition

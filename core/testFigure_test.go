@@ -8,7 +8,7 @@ func TestTest_figure_GetOwnerId(t *testing.T) {
 	test := func(ownerId int) {
 		figure := TestFigure{ownerId}
 
-		got := figure.GetOwnerId()
+		got := figure.GetOwnerID()
 		if got != ownerId {
 			t.Errorf("got %d, wanted %d", got, ownerId)
 		}

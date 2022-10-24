@@ -42,10 +42,10 @@ func (c Gamer) GetWinner() (
 	var isCanMakeTurn [2]bool
 	var numberFigures [2]int
 	for from, figure := range field.Figures {
-		numberFigures[figure.GetOwnerId()]++
+		numberFigures[figure.GetOwnerID()]++
 		moves := figure.GetAvailableMoves(&field, from)
 		if moves != nil {
-			isCanMakeTurn[figure.GetOwnerId()] = true
+			isCanMakeTurn[figure.GetOwnerID()] = true
 		}
 	}
 	if numberFigures[0] == 0 || (!isCanMakeTurn[0] && c.Core.IsTurn(0)) {

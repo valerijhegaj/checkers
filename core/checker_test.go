@@ -7,7 +7,7 @@ import (
 func TestChecker_GetOwnerId(t *testing.T) {
 	checker := Checker{0}
 
-	if checker.GetOwnerId() != 0 {
+	if checker.GetOwnerID() != 0 {
 		t.Error()
 	}
 }

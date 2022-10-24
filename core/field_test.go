@@ -72,13 +72,13 @@ func TestField_At(t *testing.T) {
 	figure := field.At(Coordinate{1, 1})
 	if figure == nil {
 		t.Error("don't extract correctly")
-	} else if figure.GetOwnerId() != 1 {
+	} else if figure.GetOwnerID() != 1 {
 		t.Error("incorrect ownerId of extracted")
 	}
 	figure = field.At(Coordinate{2, 2})
 	if figure == nil {
 		t.Error("don't extract correctly")
-	} else if figure.GetOwnerId() != 0 {
+	} else if figure.GetOwnerID() != 0 {
 		t.Error("incorrect ownerId of extracted")
 	}
 	figure = field.At(Coordinate{1, 2})
@@ -129,7 +129,7 @@ func TestField_Move(t *testing.T) {
 	}
 	if field.At(Coordinate{1, 1}) == nil {
 		t.Error()
-	} else if field.At(Coordinate{1, 1}).GetOwnerId() != 0 {
+	} else if field.At(Coordinate{1, 1}).GetOwnerID() != 0 {
 		t.Error()
 	} else if reflect.TypeOf(
 		field.At(
@@ -160,7 +160,7 @@ func TestField_Remove(t *testing.T) {
 	if len(field.Bin) != 1 {
 		t.Error()
 	}
-	if field.Bin[0].GetOwnerId() != 0 {
+	if field.Bin[0].GetOwnerID() != 0 {
 		t.Error()
 	}
 	if reflect.TypeOf(field.Bin[0]) != reflect.TypeOf(TestFigure{0}) {
@@ -188,17 +188,17 @@ func TestField_RemoveWithOutBin(t *testing.T) {
 func TestField_GetCopy(t *testing.T) {
 	field := NewTestField()
 	field.Put(Coordinate{0, 0}, TestFigure{0})
-	copy := field.GetCopy()
+	copyField := field.GetCopy()
 	field.Remove(Coordinate{0, 0})
 	field.Put(Coordinate{0, 1}, TestFigure{1})
 
-	if len(copy.Bin) == 1 {
+	if len(copyField.Bin) == 1 {
 		t.Error()
 	}
-	if copy.At(Coordinate{0, 0}) == nil {
+	if copyField.At(Coordinate{0, 0}) == nil {
 		t.Error()
 	}
-	if copy.At(Coordinate{0, 1}) != nil {
+	if copyField.At(Coordinate{0, 1}) != nil {
 		t.Error()
 	}
 }

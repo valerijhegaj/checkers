@@ -2,7 +2,7 @@ package core
 
 // in each Figure implemented rules where you can move
 type Figure interface {
-	GetOwnerId() int
+	GetOwnerID() int
 	Move(desk *Field, from Coordinate, way []Coordinate) (
 		bool,
 		Coordinate,

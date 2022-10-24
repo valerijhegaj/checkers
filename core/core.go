@@ -26,7 +26,7 @@ func (c *GameCore) Move(
 	if figure == nil {
 		return false
 	}
-	if figure.GetOwnerId() != c.turnGamerId {
+	if figure.GetOwnerID() != c.turnGamerId {
 		return false
 	}
 	if !c.checkersFeature.CheckMove(from, way[0], gamerId) {
