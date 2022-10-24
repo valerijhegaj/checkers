@@ -45,7 +45,7 @@ type Field struct {
 	BordersLeft  Coordinate
 }
 
-func (c *Field) InBorders(coordinate Coordinate) bool {
+func (c *Field) IsInBorders(coordinate Coordinate) bool {
 	return coordinate.X <= c.BordersRight.X &&
 		coordinate.Y <= c.BordersRight.Y &&
 		coordinate.X >= c.BordersLeft.X &&
@@ -54,7 +54,7 @@ func (c *Field) InBorders(coordinate Coordinate) bool {
 
 func (c *Field) IsAvailable(coordinate Coordinate) bool {
 	_, ok := c.Figures[coordinate]
-	return !ok && c.InBorders(coordinate)
+	return !ok && c.IsInBorders(coordinate)
 }
 
 func (c *Field) At(coordinate Coordinate) Figure {

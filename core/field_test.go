@@ -12,35 +12,35 @@ func TestField_InBorders(t *testing.T) {
 	field.BordersLeft.X = 1
 	field.BordersLeft.Y = 1
 
-	if !field.InBorders(Coordinate{1, 1}) {
+	if !field.IsInBorders(Coordinate{1, 1}) {
 		t.Error("got false, expected true")
 	}
-	if !field.InBorders(Coordinate{7, 7}) {
+	if !field.IsInBorders(Coordinate{7, 7}) {
 		t.Error("got false, expected true")
 	}
-	if !field.InBorders(Coordinate{7, 1}) {
+	if !field.IsInBorders(Coordinate{7, 1}) {
 		t.Error("got false, expected true")
 	}
-	if !field.InBorders(Coordinate{1, 7}) {
+	if !field.IsInBorders(Coordinate{1, 7}) {
 		t.Error("got false, expected true")
 	}
 
-	if field.InBorders(Coordinate{-1, 0}) {
+	if field.IsInBorders(Coordinate{-1, 0}) {
 		t.Error("got true, expected false")
 	}
-	if field.InBorders(Coordinate{-1, -1}) {
+	if field.IsInBorders(Coordinate{-1, -1}) {
 		t.Error("got true, expected false")
 	}
-	if field.InBorders(Coordinate{0, -1}) {
+	if field.IsInBorders(Coordinate{0, -1}) {
 		t.Error("got true, expected false")
 	}
-	if field.InBorders(Coordinate{8, 7}) {
+	if field.IsInBorders(Coordinate{8, 7}) {
 		t.Error("got true, expected false")
 	}
-	if field.InBorders(Coordinate{8, 8}) {
+	if field.IsInBorders(Coordinate{8, 8}) {
 		t.Error("got true, expected false")
 	}
-	if field.InBorders(Coordinate{7, 8}) {
+	if field.IsInBorders(Coordinate{7, 8}) {
 		t.Error("got true, expected false")
 	}
 }

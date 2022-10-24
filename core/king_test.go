@@ -458,7 +458,7 @@ func TestKing_GetAvailableMoves(t *testing.T) {
 			delete(realMoves, ptr)
 		}
 		for key := range realMoves {
-			t.Error("in moves expected:", key, ", but didn't state")
+			t.Error("in moves expected:", key, ", but didn't state", moves)
 		}
 	}
 

@@ -58,7 +58,7 @@ func (c *Save) putFiguresOnField(figures []figureInfo) {
 		} else if i.Figure == "King" {
 			c.Field.Figures[core.Coordinate{
 				i.X, i.Y,
-			}] = core.King{OwnerId: i.GamerId}
+			}] = core.King{OwnerID: i.GamerId}
 		}
 	}
 }
