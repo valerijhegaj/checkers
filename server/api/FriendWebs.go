@@ -2,7 +2,7 @@ package api
 
 import "net/http"
 
-const FriendWeb = "http://194.87.147.38:3000"
+const FriendWeb = "http://localhost:3000"
 
 func EachHandlerRoutine(w http.ResponseWriter) {
   w.Header().Add("Access-Control-Allow-Origin", FriendWeb)

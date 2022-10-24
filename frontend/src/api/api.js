@@ -3,7 +3,7 @@ import axios from "axios";
 
 const instance = axios.create({
   withCredentials: true,
-  baseURL: 'http://192.168.137.15:4444/api/'
+  baseURL: 'http://localhost:4444/api/'
 });
 
 export const authAPI = {
