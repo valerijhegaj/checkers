@@ -3,7 +3,7 @@ package game
 import (
 	"errors"
 
-	"checkers/bot"
+	"checkers/ai"
 	"checkers/core"
 	"checkers/gamer"
 	"checkers/saveLoad"
@@ -15,8 +15,8 @@ func NewGame(settings defines.Settings, password string) *Game {
 	var c core.GameCore
 	game := Game{
 		gamer: [2]gamer.Gamer{{0, &c}, {1, &c}},
-		bot: [2]bot.Bot{
-			bot.NewBot(settings.Level0), bot.NewBot(settings.Level1),
+		bot: [2]ai.Ai{
+			ai.NewBot(settings.Level0), ai.NewBot(settings.Level1),
 		},
 
 		userID: [2]int{-1, -1},
@@ -45,7 +45,7 @@ type Participants struct {
 
 type Game struct {
 	gamer [2]gamer.Gamer
-	bot   [2]bot.Bot
+	bot   [2]ai.Ai
 
 	userID [2]int
 	Participants
@@ -75,7 +75,7 @@ func (c *Game) Move(
 	{
 		isEnd, winner := c.gamer[0].GetWinner()
 		if isEnd {
-			c.winner = winner.GamerId
+			c.winner = winner.GamerID
 			return nil
 		}
 	}
@@ -86,7 +86,7 @@ func (c *Game) Move(
 			c.bot[i].Move(c.gamer[i])
 			isEnd, winner := c.gamer[0].GetWinner()
 			if isEnd {
-				c.winner = winner.GamerId
+				c.winner = winner.GamerID
 			}
 		}()
 	}

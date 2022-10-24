@@ -6,8 +6,12 @@ import (
 )
 
 type Gamer struct {
-	GamerId int
+	GamerID int
 	Core    *core.GameCore
+}
+
+func (c Gamer) GetGamerID() int {
+	return c.GamerID
 }
 
 func (c Gamer) GetField() core.Field {
@@ -15,13 +19,13 @@ func (c Gamer) GetField() core.Field {
 }
 
 func (c Gamer) IsTurn() bool {
-	return c.Core.IsTurn(c.GamerId)
+	return c.Core.IsTurn(c.GamerID)
 }
 
 func (c Gamer) Move(
 	from core.Coordinate, way []core.Coordinate,
 ) bool {
-	return c.Core.Move(from, way, c.GamerId)
+	return c.Core.Move(from, way, c.GamerID)
 }
 
 func (c Gamer) InitSave(save saveLoad.Save) {
@@ -29,7 +33,7 @@ func (c Gamer) InitSave(save saveLoad.Save) {
 	c.Core.InitTurnGamerId(save.TurnGamerId)
 }
 
-// if your turn and you can't move: you lose
+// GetWinner if your turn and you can't move: you lose
 func (c Gamer) GetWinner() (
 	bool,
 	Gamer,

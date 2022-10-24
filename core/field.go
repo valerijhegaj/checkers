@@ -100,3 +100,16 @@ func (c *Field) GetCopy() Field {
 
 	return copy_
 }
+
+func (c *Field) GetFigures(gamerID int) ([]Coordinate, []Figure) {
+	var coordinates []Coordinate
+	var figures []Figure
+	for coordinate, figure := range c.Figures {
+		if figure.GetOwnerId() != gamerID {
+			continue
+		}
+		coordinates = append(coordinates, coordinate)
+		figures = append(figures, figure)
+	}
+	return coordinates, figures
+}
