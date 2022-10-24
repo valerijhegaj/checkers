@@ -1,11 +1,11 @@
 import LoginContainer from "../login/loginContainer";
-import CreateUserContainer from "../creteUser/createUserContainer";
 import {switcherCondition} from "../../store/redusers/switcher";
 import StartMenuContainer from "../startMenu/startMenuContainer";
 import MainMenuContainer from "../mainMenu/mainMenuContainer";
 import StartGameContainer from "../startGame/startGameContainer";
 import JoinGameContainer from "../joinGame/joinGameContainer";
 import GameContainer from "../game/gameContainer";
+import CreateUserContainer from "../createUser/createUserContainer";
 
 export const Switcher = (props) => {
   switch (props.state.condition) {

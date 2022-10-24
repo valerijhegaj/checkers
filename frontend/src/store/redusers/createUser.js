@@ -1,43 +1,17 @@
-import {authAPI} from "../../api/api";
 import {switcherCondition, updateSwitcher} from "./switcher";
+import {authAPI} from "../../api/api";
 
-const ActionTypes = {
-  UpdateCreateUser: "update create user"
-}
-
-const initialState = {
-  password: '',
-  username: ''
-}
-
-export const createUser = (state = initialState, action) => {
-  switch (action.type) {
-    case ActionTypes.UpdateCreateUser:
-      return {username: action.username, password: action.password}
-    default:
-      return state
-  }
-}
-
-export const update = (username: string, password: string) => {
-  return {
-    type: ActionTypes.UpdateCreateUser,
-    username: username,
-    password: password
-  }
-}
-
-export const onClick = (username: string, password: string) => async (dispatch) => {
-  if (username === "") {
+export const onSubmit = (formData) => async (dispatch) => {
+  if (formData.username === "") {
     return
   }
-  await authAPI.register(username, password).catch(() => 1)
-  let response = await authAPI.login(username, password).catch(() => 1)
+  await authAPI.register(formData.username, formData.password).catch(() => 1)
+  let maxAge
+  if (formData.rememberMe) {
+    maxAge = 30 * 24 * 60 * 60 // 30 days
+  }
+  let response = await authAPI.login(formData.username, formData.password, maxAge).catch(() => 1)
   if (response !== 1) {
     dispatch(updateSwitcher(switcherCondition.mainMenu))
   }
-}
-
-export const back = () => {
-  return updateSwitcher(switcherCondition.startMenu)
 }
