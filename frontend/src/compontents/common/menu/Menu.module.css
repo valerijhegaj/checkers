@@ -1,0 +1,22 @@
+.body {
+    display: grid;
+    grid-template-columns: auto;
+    padding-top: 20vh;
+}
+
+.header {
+    text-align: center;
+    font-size: 5vh;
+}
+
+.button_text {
+    color: black;
+    font-size: 4vh;
+    text-align: center;
+}
+
+.button {
+    width: 60vmin;
+    height: 10vh;
+    margin: auto;
+}
