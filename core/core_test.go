@@ -9,7 +9,7 @@ func getTestCore() GameCore {
 	field := NewTestField()
 	field.Put(Coordinate{4, 4}, Checker{1})
 	field.Put(Coordinate{1, 1}, Checker{0})
-	Core.InitTurnGamerId(1)
+	Core.InitTurnGamerID(1)
 	Core.InitField(field)
 	return Core
 }
@@ -65,7 +65,7 @@ func TestChecker_MoveWithFeature1(t *testing.T) {
 
 	Core.InitField(NewStandard8x8Field())
 	gamerId := 0
-	Core.InitTurnGamerId(gamerId)
+	Core.InitTurnGamerID(gamerId)
 
 	testMove := func(move string, returnValue bool) {
 		ok := Core.Move(
@@ -135,7 +135,7 @@ func TestChecker_MoveWithFeature2(t *testing.T) {
 	field.Put(Coordinate{0, 1}, King{0})
 	Core.InitField(field)
 	gamerId := 1
-	Core.InitTurnGamerId(gamerId)
+	Core.InitTurnGamerID(gamerId)
 
 	testMove := func(move string, returnValue bool) {
 		ok := Core.Move(

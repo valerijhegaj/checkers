@@ -26,7 +26,7 @@ func TestGamer_GetField(t *testing.T) {
 
 func TestGamer_IsTurn(t *testing.T) {
 	var c core.GameCore
-	c.InitTurnGamerId(0)
+	c.InitTurnGamerID(0)
 	if !c.IsTurn(0) {
 		t.Error("((")
 	}

@@ -30,7 +30,7 @@ func (c Gamer) Move(
 
 func (c Gamer) InitSave(save saveLoad.Save) {
 	c.Core.InitField(save.Field)
-	c.Core.InitTurnGamerId(save.TurnGamerId)
+	c.Core.InitTurnGamerID(save.TurnGamerId)
 }
 
 // GetWinner if your turn and you can't move: you lose
