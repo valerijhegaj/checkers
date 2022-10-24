@@ -3,8 +3,8 @@ package data
 import (
 	"errors"
 
-	"checkers/core"
-	"checkers/saveLoad"
+	"checkers/logic/core"
+	"checkers/logic/saveLoad"
 	"checkers/server/internal/errorsStrings"
 	"checkers/server/internal/game"
 	"checkers/server/pkg/defines"

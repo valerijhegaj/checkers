@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"reflect"
 
-	"checkers/core"
+	core2 "checkers/logic/core"
 )
 
 func ErrorInt(expected, got int) string {
@@ -15,7 +15,7 @@ func ErrorString(expected, got string) string {
 	return fmt.Sprintf("expected %s, but got %s", expected, got)
 }
 
-func ErrorField(expected, got *core.Field) string {
+func ErrorField(expected, got *core2.Field) string {
 	var ans string
 	ans = "\nexpected:\n"
 	ans += Field(expected)
@@ -24,14 +24,14 @@ func ErrorField(expected, got *core.Field) string {
 	return ans
 }
 
-func Field(field *core.Field) string {
+func Field(field *core2.Field) string {
 	var ans string
 
 	printFigureCorrect := func(x, y int) {
-		figure := field.At(core.Coordinate{x, y})
+		figure := field.At(core2.Coordinate{x, y})
 		if figure == nil {
 			ans += "_ "
-		} else if reflect.TypeOf(figure) == reflect.TypeOf(core.Checker{}) {
+		} else if reflect.TypeOf(figure) == reflect.TypeOf(core2.Checker{}) {
 			if figure.GetOwnerID() == 1 {
 				ans += "\u001B[31m"
 			}

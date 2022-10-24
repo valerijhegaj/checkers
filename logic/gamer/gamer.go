@@ -1,20 +1,20 @@
 package gamer
 
 import (
-	"checkers/core"
-	"checkers/saveLoad"
+	core2 "checkers/logic/core"
+	"checkers/logic/saveLoad"
 )
 
 type Gamer struct {
 	GamerID int
-	Core    *core.GameCore
+	Core    *core2.GameCore
 }
 
 func (c Gamer) GetGamerID() int {
 	return c.GamerID
 }
 
-func (c Gamer) GetField() core.Field {
+func (c Gamer) GetField() core2.Field {
 	return c.Core.GetField()
 }
 
@@ -23,7 +23,7 @@ func (c Gamer) IsTurn() bool {
 }
 
 func (c Gamer) Move(
-	from core.Coordinate, way []core.Coordinate,
+	from core2.Coordinate, way []core2.Coordinate,
 ) bool {
 	return c.Core.Move(from, way, c.GamerID)
 }

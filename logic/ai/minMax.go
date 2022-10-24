@@ -3,7 +3,7 @@ package ai
 import (
 	"math"
 
-	"checkers/core"
+	core2 "checkers/logic/core"
 )
 
 func NewMinMaxMind(level int) Mind {
@@ -24,8 +24,8 @@ type MinMaxTree struct {
 }
 
 func (c *MinMaxTree) GetMove(
-	field *core.Field, gamerID int,
-) (core.Coordinate, []core.Coordinate) {
+	field *core2.Field, gamerID int,
+) (core2.Coordinate, []core2.Coordinate) {
 	c.root = &node{field: *field, gamerID: gamerID}
 	c.root.createChildren(c.level*2, c.root.gamerID, c.Heuristics)
 	defer func() { c.root = nil }()
@@ -35,12 +35,12 @@ func (c *MinMaxTree) GetMove(
 			return move.from, move.way
 		}
 	}
-	return core.Coordinate{}, nil
+	return core2.Coordinate{}, nil
 }
 
 func (c *MinMaxTree) GetRandomMove(
-	field *core.Field, gamerID int, random Random,
-) (core.Coordinate, []core.Coordinate) {
+	field *core2.Field, gamerID int, random Random,
+) (core2.Coordinate, []core2.Coordinate) {
 	c.root = &node{field: *field, gamerID: gamerID}
 	c.root.createChildren(2, c.root.gamerID, c.Heuristics)
 	defer func() { c.root = nil }()
@@ -49,14 +49,14 @@ func (c *MinMaxTree) GetRandomMove(
 		choice := random.randn(len(c.root.moves))
 		return c.root.moves[choice].from, c.root.moves[choice].way
 	}
-	return core.Coordinate{}, nil
+	return core2.Coordinate{}, nil
 }
 
 type node struct {
 	moves   []*node
-	field   core.Field
-	from    core.Coordinate
-	way     []core.Coordinate
+	field   core2.Field
+	from    core2.Coordinate
+	way     []core2.Coordinate
 	gamerID int
 	score   float64
 }
@@ -115,7 +115,7 @@ func (c *node) createMovesWithoutEat() {
 			c.moves = append(
 				c.moves, &node{
 					field: childField, from: from,
-					way: []core.Coordinate{to}, gamerID: c.gamerID ^ 1,
+					way: []core2.Coordinate{to}, gamerID: c.gamerID ^ 1,
 				},
 			)
 		}
@@ -133,9 +133,9 @@ func (c *node) createSuperMovesToEat() {
 			copyField := move.field.GetCopy()
 
 			figure := copyField.At(from)
-			figure.Move(&copyField, from, []core.Coordinate{to})
+			figure.Move(&copyField, from, []core2.Coordinate{to})
 
-			way := make([]core.Coordinate, len(move.way)+1)
+			way := make([]core2.Coordinate, len(move.way)+1)
 			copy(way, move.way)
 			way[len(move.way)] = to
 
@@ -163,10 +163,10 @@ func (c *node) createMovesToEat() bool {
 		for _, to := range moves {
 			copyField := c.field.GetCopy()
 			figure := copyField.At(from)
-			figure.Move(&copyField, from, []core.Coordinate{to})
+			figure.Move(&copyField, from, []core2.Coordinate{to})
 			c.moves = append(
 				c.moves, &node{
-					field: copyField, from: from, way: []core.Coordinate{to},
+					field: copyField, from: from, way: []core2.Coordinate{to},
 					gamerID: c.gamerID ^ 1,
 				},
 			)

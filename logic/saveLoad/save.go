@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"reflect"
 
-	"checkers/core"
+	core2 "checkers/logic/core"
 )
 
 const (
@@ -43,7 +43,7 @@ type Participants struct {
 //}
 
 type Save struct {
-	Field       core.Field
+	Field       core2.Field
 	Master      Participants
 	TurnGamerId int
 	Winner      int
@@ -52,19 +52,19 @@ type Save struct {
 func (c *Save) putFiguresOnField(figures []figureInfo) {
 	for _, i := range figures {
 		if i.Figure == "Checker" {
-			c.Field.Figures[core.Coordinate{
+			c.Field.Figures[core2.Coordinate{
 				i.X, i.Y,
-			}] = core.Checker{OwnerID: i.GamerId}
+			}] = core2.Checker{OwnerID: i.GamerId}
 		} else if i.Figure == "King" {
-			c.Field.Figures[core.Coordinate{
+			c.Field.Figures[core2.Coordinate{
 				i.X, i.Y,
-			}] = core.King{OwnerID: i.GamerId}
+			}] = core2.King{OwnerID: i.GamerId}
 		}
 	}
 }
 
 func (c *Save) initFromJsonSave(jsonSave *jsonSave) {
-	c.Field = core.NewField()
+	c.Field = core2.NewField()
 	c.putFiguresOnField(jsonSave.Figures)
 	c.Field.BordersRight = jsonSave.BordersRight
 	c.Field.BordersLeft = jsonSave.BordersLeft
@@ -110,17 +110,17 @@ type figureInfo struct {
 }
 
 type jsonSave struct {
-	Figures      []figureInfo    `json:"figures"`
-	BordersRight core.Coordinate `json:"bordersRight"`
-	BordersLeft  core.Coordinate `json:"bordersLeft"`
-	Position     Participants    `json:"position"`
-	TurnGamerId  int             `json:"turnGamerId"`
-	Winner       int             `json:"winner"`
+	Figures      []figureInfo     `json:"figures"`
+	BordersRight core2.Coordinate `json:"bordersRight"`
+	BordersLeft  core2.Coordinate `json:"bordersLeft"`
+	Position     Participants     `json:"position"`
+	TurnGamerId  int              `json:"turnGamerId"`
+	Winner       int              `json:"winner"`
 }
 
 // warning reflect.TypeOf(figure).String()[5:]
 // can don't work with other names and struct of project
-func (c *jsonSave) takeFiguresFromField(field core.Field) {
+func (c *jsonSave) takeFiguresFromField(field core2.Field) {
 	c.Figures = make([]figureInfo, len(field.Figures))
 	i := 0
 	for coordinate, figure := range field.Figures {

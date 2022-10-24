@@ -5,7 +5,7 @@ import (
 	"io"
 	"net/http"
 
-	"checkers/core"
+	"checkers/logic/core"
 	"checkers/server/api"
 	"checkers/server/pkg/defines"
 	"checkers/server/pkg/file"

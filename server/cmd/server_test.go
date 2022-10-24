@@ -7,8 +7,8 @@ import (
 	"os"
 	"testing"
 
-	"checkers/core"
-	"checkers/saveLoad"
+	core2 "checkers/logic/core"
+	"checkers/logic/saveLoad"
 	"checkers/server/pkg/defines"
 	"checkers/server/test/format"
 	apiParser "checkers/test/api"
@@ -72,7 +72,7 @@ func Test_server(t *testing.T) {
 	}
 
 	gameName1, password1 := "fitstField", "1"
-	firstField := core.NewStandard8x8Field()
+	firstField := core2.NewStandard8x8Field()
 
 	//----------------------test3---------------------------------------
 	// create game, log in, get, move and get
@@ -107,7 +107,7 @@ func Test_server(t *testing.T) {
 
 		save := saveLoad.NewSaveFromRawSave(rawSave)
 
-		if !core.IsEqual(&save.Field, &firstField) {
+		if !core2.IsEqual(&save.Field, &firstField) {
 			t.Error(format.ErrorField(&firstField, &save.Field))
 		}
 		if save.TurnGamerId != 0 {
@@ -117,8 +117,8 @@ func Test_server(t *testing.T) {
 			t.Error(format.ErrorInt(-1, save.Winner))
 		}
 
-		from := core.Coordinate{2, 0}
-		to := []core.Coordinate{{3, 1}}
+		from := core2.Coordinate{2, 0}
+		to := []core2.Coordinate{{3, 1}}
 
 		code, err = valerijhegaj.Move(gameName1, from, to)
 		if err != nil {
@@ -141,7 +141,7 @@ func Test_server(t *testing.T) {
 		figure := firstField.At(from)
 		figure.Move(&firstField, from, to)
 
-		if !core.IsEqual(&save.Field, &firstField) {
+		if !core2.IsEqual(&save.Field, &firstField) {
 			t.Error(format.ErrorField(&firstField, &save.Field))
 		}
 		if save.TurnGamerId != 1 {
@@ -208,7 +208,7 @@ func Test_server(t *testing.T) {
 		}
 
 		code, err = aboba.Move(
-			gameName1, core.Coordinate{5, 1}, []core.Coordinate{{4, 0}},
+			gameName1, core2.Coordinate{5, 1}, []core2.Coordinate{{4, 0}},
 		)
 		if err != nil {
 			t.Error(format.ErrorString("without errors", err.Error()))
@@ -232,7 +232,7 @@ func Test_server(t *testing.T) {
 	//----------------------test5---------------------------------------
 	// log in game, get, move and get
 	move := func(
-		isCorrect bool, from core.Coordinate, to []core.Coordinate,
+		isCorrect bool, from core2.Coordinate, to []core2.Coordinate,
 		user *apiParser.User,
 	) {
 		code, err := user.Move(gameName1, from, to)
@@ -260,17 +260,17 @@ func Test_server(t *testing.T) {
 		}
 
 		save := saveLoad.NewSaveFromRawSave(rawSave)
-		if !core.IsEqual(&firstField, &save.Field) {
+		if !core2.IsEqual(&firstField, &save.Field) {
 			t.Error(format.ErrorField(&firstField, &save.Field))
 		}
 	}
 	generateFromTo := func(data []int) (
-		core.Coordinate, []core.Coordinate,
+		core2.Coordinate, []core2.Coordinate,
 	) {
-		from := core.Coordinate{data[0], data[1]}
-		var to []core.Coordinate
+		from := core2.Coordinate{data[0], data[1]}
+		var to []core2.Coordinate
 		for i := 2; i < len(data); i += 2 {
-			to = append(to, core.Coordinate{data[i], data[i+1]})
+			to = append(to, core2.Coordinate{data[i], data[i+1]})
 		}
 		return from, to
 	}
@@ -293,7 +293,7 @@ func Test_server(t *testing.T) {
 		}
 
 		save := saveLoad.NewSaveFromRawSave(rawSave)
-		if !core.IsEqual(&firstField, &save.Field) {
+		if !core2.IsEqual(&firstField, &save.Field) {
 			t.Error(format.ErrorField(&firstField, &save.Field))
 		}
 

@@ -3,7 +3,7 @@ package ai
 import (
 	"math/rand"
 
-	"checkers/core"
+	core2 "checkers/logic/core"
 )
 
 func NewRandomMoves() RandomMoves {
@@ -18,8 +18,8 @@ type RandomMoves struct {
 }
 
 func (c RandomMoves) GetMove(
-	field *core.Field, gamerID int,
-) (core.Coordinate, []core.Coordinate) {
+	field *core2.Field, gamerID int,
+) (core2.Coordinate, []core2.Coordinate) {
 	return c.body.GetRandomMove(field, gamerID, c.Random)
 }
 

@@ -1,7 +1,7 @@
 package data
 
 import (
-	"checkers/core"
+	"checkers/logic/core"
 	"checkers/server/pkg/defines"
 )
 

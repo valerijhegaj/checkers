@@ -3,11 +3,11 @@ package ai
 import (
 	"reflect"
 
-	"checkers/core"
+	core2 "checkers/logic/core"
 )
 
 type Heuristics interface {
-	CalculateScore(gamerID int, field *core.Field) float64
+	CalculateScore(gamerID int, field *core2.Field) float64
 }
 
 func NewSimpleAmount() Heuristics {
@@ -24,7 +24,7 @@ type AmountWithCosts struct {
 }
 
 func (c *AmountWithCosts) CalculateScore(
-	gamerID int, field *core.Field,
+	gamerID int, field *core2.Field,
 ) float64 {
 	_, goodFigures := (*field).GetFigures(gamerID)
 	_, badFigures := (*field).GetFigures(gamerID ^ 1)
@@ -33,7 +33,7 @@ func (c *AmountWithCosts) CalculateScore(
 }
 
 func (c *AmountWithCosts) finalCalculate(
-	goodFigures *[]core.Figure, badFigures *[]core.Figure,
+	goodFigures *[]core2.Figure, badFigures *[]core2.Figure,
 ) float64 {
 	ans := float64(0)
 	for _, figure := range *goodFigures {
@@ -45,9 +45,9 @@ func (c *AmountWithCosts) finalCalculate(
 	return ans
 }
 
-func (c *AmountWithCosts) valueOf(figure core.Figure) float64 {
+func (c *AmountWithCosts) valueOf(figure core2.Figure) float64 {
 	var value float64
-	if reflect.TypeOf(figure) == reflect.TypeOf(core.Checker{}) {
+	if reflect.TypeOf(figure) == reflect.TypeOf(core2.Checker{}) {
 		value = c.CheckerCost
 	} else {
 		value = c.KingCost
