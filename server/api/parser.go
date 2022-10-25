@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"log"
 
 	"checkers/logic/core"
 	"checkers/server/pkg/defines"
@@ -21,6 +22,9 @@ func Parse(data []byte) (
 	Helper,
 	error,
 ) {
+
+	r := string(data)
+	log.Println(r)
 	var h Helper
 	err := json.Unmarshal(data, &h)
 	return h, err
