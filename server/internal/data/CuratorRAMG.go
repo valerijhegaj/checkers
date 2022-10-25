@@ -44,6 +44,13 @@ func (c *CuratorRAMG) NewGame(
 	return nil
 }
 
+func (c *CuratorRAMG) OnChangeGame(
+	token string, gameName string, handler func([]byte),
+) error {
+	//not implemented
+	return nil
+}
+
 func (c *CuratorRAMG) GetGame(
 	token string, gameName string,
 ) ([]byte, error) {

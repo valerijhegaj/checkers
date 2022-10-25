@@ -22,7 +22,6 @@ func main() {
 	}
 
 	const PORT = ":4444"
-	//http.HandleFunc("endpoint", handler)
 
 	http.HandleFunc("/api/user", user.Handler)
 	http.HandleFunc("/api/session", session.Handler)

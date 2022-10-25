@@ -38,6 +38,7 @@ type UserCurator interface {
 type GameCurator interface {
 	NewGame(gameName, password string, settings defines.Settings) error
 
+	OnChangeGame(token, gameName string, handler func([]byte)) error
 	GetGame(token, gameName string) ([]byte, error)
 	LoginGame(token, gameName, password string) error
 	ChangeGame(token, gameName string, settings defines.Settings) error
