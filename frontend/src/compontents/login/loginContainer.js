@@ -1,15 +1,14 @@
 import Login from "./login";
-import {onClick, update, back} from "../../store/redusers/login";
+import {onSubmit} from "../../store/redusers/login";
 import {connect} from "react-redux";
 
-const mapStateToProps = (state) => {
+const mapStateToProps = () => {
   return {
-    state: state.login
+    state: undefined
   }
 }
 
 const LoginContainer =
-  connect(mapStateToProps,
-    {update, onClick, back})(Login)
+  connect(mapStateToProps, {onSubmit})(Login)
 
 export default LoginContainer

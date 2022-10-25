@@ -6,10 +6,7 @@ export const onSubmit = (formData) => async (dispatch) => {
     return
   }
   await authAPI.register(formData.username, formData.password).catch(() => 1)
-  let maxAge
-  if (formData.rememberMe) {
-    maxAge = 30 * 24 * 60 * 60 // 30 days
-  }
+  const maxAge = 30 * 24 * 60 * 60 // 30 days
   let response = await authAPI.login(formData.username, formData.password, maxAge).catch(() => 1)
   if (response !== 1) {
     dispatch(updateSwitcher(switcherCondition.mainMenu))

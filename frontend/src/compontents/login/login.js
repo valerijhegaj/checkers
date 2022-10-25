@@ -1,21 +1,33 @@
+import {Field, reduxForm} from "redux-form";
+import menuStyle from "../common/menu/Menu.module.css";
+import formStyle from "../common/form/Form.module.css";
+
+const LoginForm = (props) => {
+  return (
+    <form onSubmit={props.handleSubmit} className={menuStyle.body}>
+
+      <div className={menuStyle.header}>Checkers</div>
+      <Field placeholder={"username"} component={"input"}
+             name={"username"} type={"username"}
+             className={`${menuStyle.button_text} ${formStyle.input}`}/>
+      <Field placeholder={"password"} component={"input"}
+             name={"password"} type={"password"}
+             className={`${menuStyle.button_text} ${formStyle.input}`}/>
+      <button type={"submit"}
+              className={`${menuStyle.button_text} ${menuStyle.button}`}>
+        Login
+      </button>
+    </form>
+  )
+}
+
+const LoginFormRedux = reduxForm({
+  form: "login"
+})(LoginForm)
+
 const Login = (props) => {
   return (
-    <div>
-      <input type="text" value={props.state.username}
-             onChange={event => {
-               props.update(event.target.value, props.state.password)
-             }}/>
-      <input value={props.state.password}
-             onChange={event => {
-               props.update(props.state.username, event.target.value)
-             }}/>
-      <button
-        onClick={() => {
-          props.onClick(props.state.username, props.state.password)
-        }}>login
-      </button>
-      <button onClick={() => props.back()}>return</button>
-    </div>
+    <LoginFormRedux onSubmit={props.onSubmit}/>
   )
 }
 

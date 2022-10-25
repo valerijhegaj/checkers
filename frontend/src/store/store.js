@@ -2,7 +2,6 @@ import {applyMiddleware, combineReducers, createStore} from "redux";
 import thunk from "redux-thunk"
 import {reducer as form} from "redux-form"
 
-import {login} from "./redusers/login";
 import {switcher} from "./redusers/switcher";
 import {startGame} from "./redusers/startGame";
 import {joinGame} from "./redusers/joinGame";
@@ -10,7 +9,6 @@ import {game} from "./redusers/game";
 
 let reducers = combineReducers({
   form,
-  login,
   switcher,
   startGame,
   joinGame,

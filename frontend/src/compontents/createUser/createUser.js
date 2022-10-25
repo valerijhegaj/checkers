@@ -1,16 +1,22 @@
 import {Field, reduxForm} from "redux-form";
+import menuStyle from "../common/menu/Menu.module.css"
+import formStyle from "../common/form/Form.module.css"
 
 const CreateUserForm = (props) => {
   return (
-    <form onSubmit={props.handleSubmit}>
-      <Field placeholder={"username"} component={"input"}
-             name={"username"} type={"username"}/>
-      <Field placeholder={"password"} component={"input"}
-             name={"password"} type={"password"}/>
-      <Field type={"checkbox"} component={"input"}
-             name={"rememberMe"}/>remember me for 30 days
-      <button type={"submit"}>register</button>
+    <form onSubmit={props.handleSubmit} className={menuStyle.body}>
 
+      <div className={menuStyle.header}>Checkers</div>
+      <Field placeholder={"username"} component={"input"}
+             name={"username"} type={"username"}
+             className={`${menuStyle.button_text} ${formStyle.input}`}/>
+      <Field placeholder={"password"} component={"input"}
+             name={"password"} type={"password"}
+             className={`${menuStyle.button_text} ${formStyle.input}`}/>
+      <button type={"submit"}
+              className={`${menuStyle.button_text} ${menuStyle.button}`}>
+        Register
+      </button>
     </form>
   )
 }

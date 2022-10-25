@@ -1,42 +1,13 @@
 import {authAPI} from "../../api/api";
 import {switcherCondition, updateSwitcher} from "./switcher";
 
-const ActionTypes = {
-  UpdateLogin: "update login"
-}
-
-const initialState = {
-  password: '',
-  username: ''
-}
-
-export const login = (state = initialState, action) => {
-  switch (action.type) {
-    case ActionTypes.UpdateLogin:
-      return {username: action.username, password: action.password}
-    default:
-      return state
-  }
-}
-
-export const update = (username: string, password: string) => {
-  return {
-    type: ActionTypes.UpdateLogin,
-    username: username,
-    password: password
-  }
-}
-
-export const onClick = (username: string, password: string) => async (dispatch) => {
-  if (username === "") {
+export const onSubmit = (formData) => async (dispatch) => {
+  if (formData.username === "") {
     return
   }
-  let response = await authAPI.login(username, password).catch(() => 1)
+  const maxAge = 30 * 24 * 60 * 60 // 30 days
+  let response = await authAPI.login(formData.username, formData.password, maxAge).catch(() => 1)
   if (response !== 1) {
     dispatch(updateSwitcher(switcherCondition.mainMenu))
   }
-}
-
-export const back = () => {
-  return updateSwitcher(switcherCondition.startMenu)
 }
