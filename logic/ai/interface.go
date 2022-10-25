@@ -9,10 +9,8 @@ func NewBot(level int) Ai {
 	var ai Ai
 	if level == 0 {
 		ai.Mind = NewRandomMoves()
-	} else if level <= 4 {
-		ai.Mind = NewMinMaxMind(level)
 	} else {
-		ai.Mind = NewMinMaxMindV2(level-1, 3, 1)
+		ai.Mind = NewMinMaxMindV2(level, 3, 1)
 	}
 	return ai
 }
