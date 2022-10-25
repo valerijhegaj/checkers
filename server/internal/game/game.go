@@ -4,7 +4,7 @@ import (
 	"errors"
 
 	"checkers/logic/ai"
-	core2 "checkers/logic/core"
+	"checkers/logic/core"
 	"checkers/logic/gamer"
 	"checkers/logic/saveLoad"
 	"checkers/server/internal/errorsStrings"
@@ -12,7 +12,7 @@ import (
 )
 
 func NewGame(settings defines.Settings, password string) *Game {
-	var c core2.GameCore
+	var c core.GameCore
 	game := Game{
 		gamer: [2]gamer.Gamer{{0, &c}, {1, &c}},
 		bot: [2]ai.Ai{
@@ -31,7 +31,7 @@ func NewGame(settings defines.Settings, password string) *Game {
 		winner: -1,
 	}
 	save := saveLoad.Save{
-		Field:       core2.NewStandard8x8Field(),
+		Field:       core.NewStandard8x8Field(),
 		TurnGamerID: 0,
 	}
 	game.gamer[0].InitSave(save)
@@ -57,7 +57,7 @@ type Game struct {
 }
 
 func (c *Game) Move(
-	userID int, from core2.Coordinate, path []core2.Coordinate,
+	userID int, from core.Coordinate, path []core.Coordinate,
 ) error {
 	var i int
 	switch userID {
