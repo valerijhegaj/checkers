@@ -28,8 +28,8 @@ type CuratorRAMG struct {
 func (c *CuratorRAMG) NewGame(
 	gameName, password string, settings defines.Settings,
 ) error {
-	if settings.Gamer0 == settings.Gamer1 &&
-		settings.Gamer0 == saveLoad.Bot {
+	if settings.Gamer[0] == settings.Gamer[1] &&
+		settings.Gamer[0] == saveLoad.Bot {
 		return errors.New(errorsStrings.PermissionDenied)
 	}
 	_, ok := c.gameID[gameName]
@@ -55,8 +55,8 @@ func (c *CuratorRAMG) GetGame(
 	if !ok {
 		return nil, errors.New(errorsStrings.NotFound)
 	}
-	game := c.game[gameID]
-	return game.GetGame(userID)
+	Game := c.game[gameID]
+	return Game.GetGame(userID)
 }
 
 func (c *CuratorRAMG) LoginGame(
@@ -70,8 +70,8 @@ func (c *CuratorRAMG) LoginGame(
 	if !ok {
 		return errors.New(errorsStrings.NotFound)
 	}
-	game := c.game[gameID]
-	return game.AddUser(userID, password)
+	Game := c.game[gameID]
+	return Game.AddUser(userID, password)
 }
 func (c *CuratorRAMG) ChangeGame(
 	token, gameName string, settings defines.Settings,
@@ -95,6 +95,6 @@ func (c *CuratorRAMG) MakeMove(
 	if !ok {
 		return errors.New(errorsStrings.NotFound)
 	}
-	game := c.game[gameID]
-	return game.Move(userID, from, path)
+	Game := c.game[gameID]
+	return Game.Move(userID, from, path)
 }

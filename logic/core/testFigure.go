@@ -4,6 +4,10 @@ type TestFigure struct {
 	OwnerId int
 }
 
+func (c TestFigure) ToString() string {
+	return "TestFigure"
+}
+
 func (c TestFigure) GetOwnerID() int {
 	return c.OwnerId
 }

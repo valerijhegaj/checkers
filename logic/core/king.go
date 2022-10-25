@@ -4,6 +4,10 @@ type King struct {
 	OwnerID int
 }
 
+func (c King) ToString() string {
+	return "King"
+}
+
 func (c King) GetOwnerID() int {
 	return c.OwnerID
 }

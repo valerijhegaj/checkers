@@ -14,4 +14,5 @@ type Figure interface {
 	//Without moves includes a lot of steps
 	GetAvailableMoves(desk *Field, from Coordinate) []Coordinate
 	GetAvailableMovesToEat(desk *Field, from Coordinate) []Coordinate
+	ToString() string
 }

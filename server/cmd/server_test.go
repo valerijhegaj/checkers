@@ -10,8 +10,8 @@ import (
 	core2 "checkers/logic/core"
 	"checkers/logic/saveLoad"
 	"checkers/server/pkg/defines"
+	"checkers/server/test/api"
 	"checkers/server/test/format"
-	apiParser "checkers/test/api"
 )
 
 func Test_server(t *testing.T) {
@@ -105,13 +105,16 @@ func Test_server(t *testing.T) {
 			t.Error(format.ErrorInt(http.StatusOK, code))
 		}
 
-		save := saveLoad.NewSaveFromRawSave(rawSave)
+		save, err := saveLoad.NewSaveFromRawSave(rawSave)
+		if err != nil {
+			t.Error(format.ErrorString("without errors", err.Error()))
+		}
 
 		if !core2.IsEqual(&save.Field, &firstField) {
 			t.Error(format.ErrorField(&firstField, &save.Field))
 		}
-		if save.TurnGamerId != 0 {
-			t.Error(format.ErrorInt(0, save.TurnGamerId))
+		if save.TurnGamerID != 0 {
+			t.Error(format.ErrorInt(0, save.TurnGamerID))
 		}
 		if save.Winner != -1 {
 			t.Error(format.ErrorInt(-1, save.Winner))
@@ -136,7 +139,10 @@ func Test_server(t *testing.T) {
 			t.Error(format.ErrorInt(http.StatusOK, code))
 		}
 
-		save = saveLoad.NewSaveFromRawSave(rawSave)
+		save, err = saveLoad.NewSaveFromRawSave(rawSave)
+		if err != nil {
+			t.Error(format.ErrorString("without errors", err.Error()))
+		}
 
 		figure := firstField.At(from)
 		figure.Move(&firstField, from, to)
@@ -144,8 +150,8 @@ func Test_server(t *testing.T) {
 		if !core2.IsEqual(&save.Field, &firstField) {
 			t.Error(format.ErrorField(&firstField, &save.Field))
 		}
-		if save.TurnGamerId != 1 {
-			t.Error(format.ErrorInt(0, save.TurnGamerId))
+		if save.TurnGamerID != 1 {
+			t.Error(format.ErrorInt(0, save.TurnGamerID))
 		}
 		if save.Winner != -1 {
 			t.Error(format.ErrorInt(-1, save.Winner))
@@ -259,7 +265,10 @@ func Test_server(t *testing.T) {
 			t.Error(format.ErrorInt(http.StatusOK, code))
 		}
 
-		save := saveLoad.NewSaveFromRawSave(rawSave)
+		save, err := saveLoad.NewSaveFromRawSave(rawSave)
+		if err != nil {
+			t.Error(format.ErrorString("without errors", err.Error()))
+		}
 		if !core2.IsEqual(&firstField, &save.Field) {
 			t.Error(format.ErrorField(&firstField, &save.Field))
 		}
@@ -292,7 +301,10 @@ func Test_server(t *testing.T) {
 			t.Error(format.ErrorInt(http.StatusOK, code))
 		}
 
-		save := saveLoad.NewSaveFromRawSave(rawSave)
+		save, err := saveLoad.NewSaveFromRawSave(rawSave)
+		if err != nil {
+			t.Error(format.ErrorString("without errors", err.Error()))
+		}
 		if !core2.IsEqual(&firstField, &save.Field) {
 			t.Error(format.ErrorField(&firstField, &save.Field))
 		}

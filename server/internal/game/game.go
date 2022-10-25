@@ -16,13 +16,13 @@ func NewGame(settings defines.Settings, password string) *Game {
 	game := Game{
 		gamer: [2]gamer.Gamer{{0, &c}, {1, &c}},
 		bot: [2]ai.Ai{
-			ai.NewBot(settings.Level0), ai.NewBot(settings.Level1),
+			ai.NewBot(settings.Level[0]), ai.NewBot(settings.Level[1]),
 		},
 
 		userID: [2]int{-1, -1},
 		Participants: Participants{
-			[2]int{settings.Gamer0, settings.Gamer1},
-			[2]int{settings.Level0, settings.Level1},
+			[2]int{settings.Gamer[0], settings.Gamer[1]},
+			[2]int{settings.Level[0], settings.Level[1]},
 		},
 
 		password:   password,
@@ -32,7 +32,7 @@ func NewGame(settings defines.Settings, password string) *Game {
 	}
 	save := saveLoad.Save{
 		Field:       core2.NewStandard8x8Field(),
-		TurnGamerId: 0,
+		TurnGamerID: 0,
 	}
 	game.gamer[0].InitSave(save)
 	return &game
@@ -100,15 +100,15 @@ func (c *Game) GetGame(userID int) ([]byte, error) {
 	}
 	save.Field = c.gamer[0].GetField()
 	if c.gamer[0].IsTurn() {
-		save.TurnGamerId = 0
+		save.TurnGamerID = 0
 	} else {
-		save.TurnGamerId = 1
+		save.TurnGamerID = 1
 	}
 
-	save.Master.Gamer0 = c.Participants.gamer[0]
-	save.Master.Gamer1 = c.Participants.gamer[1]
-	save.Master.Level0 = c.Participants.level[0]
-	save.Master.Level1 = c.Participants.level[1]
+	for gamerID := 0; gamerID < 2; gamerID++ {
+		save.Master.Gamer[gamerID] = c.Participants.gamer[gamerID]
+		save.Master.Level[gamerID] = c.Participants.level[gamerID]
+	}
 
 	save.Winner = c.winner
 	return save.GetRawSave()

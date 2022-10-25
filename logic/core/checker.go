@@ -4,6 +4,10 @@ type Checker struct {
 	OwnerID int
 }
 
+func (c Checker) ToString() string {
+	return "Checker"
+}
+
 func (c Checker) GetOwnerID() int {
 	return c.OwnerID
 }
