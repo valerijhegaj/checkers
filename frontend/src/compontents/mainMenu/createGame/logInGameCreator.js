@@ -3,7 +3,6 @@ import {Field, reduxForm} from "redux-form";
 import formStyle from "../../common/form/Form.module.css";
 
 export const LogInGameForm = (props) => {
-  debugger
   const input =  `${menuStyle.button_text} ${formStyle.input}`
   const button = `${menuStyle.button_text} ${menuStyle.button}`
 

@@ -7,6 +7,7 @@ import (
 	"checkers/server/api/game"
 	"checkers/server/api/game/create"
 	"checkers/server/api/game/move"
+	"checkers/server/api/game/subscribe"
 	"checkers/server/api/session"
 	"checkers/server/api/user"
 	"checkers/server/internal/data"
@@ -28,6 +29,7 @@ func main() {
 	http.HandleFunc("/api/game/create", create.Handler)
 	http.HandleFunc("/api/game/move", move.Handler)
 	http.HandleFunc("/api/game", game.Handler)
+	http.HandleFunc("/api/game/subscribe", subscribe.Handler)
 
 	if err := http.ListenAndServe(PORT, nil); err != nil {
 		log.Fatal(err.Error())

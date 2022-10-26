@@ -12,14 +12,14 @@ import (
 
 func NewCuratorRAMG() GameCurator {
 	return &CuratorRAMG{
-		game:      make(map[int]*game.Game),
+		game:      make(map[int]game.Container),
 		gameID:    make(map[string]int),
 		maxGameID: 1,
 	}
 }
 
 type CuratorRAMG struct {
-	game   map[int]*game.Game
+	game   map[int]game.Container
 	gameID map[string]int
 
 	maxGameID int
@@ -37,7 +37,7 @@ func (c *CuratorRAMG) NewGame(
 		return errors.New(errorsStrings.GameAlreadyExist)
 	}
 
-	c.game[c.maxGameID] = game.NewGame(settings, password)
+	c.game[c.maxGameID] = game.NewContainer(settings, password)
 	c.gameID[gameName] = c.maxGameID
 
 	c.maxGameID++
@@ -47,7 +47,19 @@ func (c *CuratorRAMG) NewGame(
 func (c *CuratorRAMG) OnChangeGame(
 	token string, gameName string, handler func([]byte),
 ) error {
-	//not implemented
+	userID, err := GetGlobalStorage().GetUserID(token)
+	if err != nil {
+		return errors.New(errorsStrings.NotAuthorized)
+	}
+	gameID, ok := c.gameID[gameName]
+	if !ok {
+		return errors.New(errorsStrings.NotFound)
+	}
+	Game := c.game[gameID]
+	if !Game.CheckAccess(userID) {
+		return errors.New(errorsStrings.PermissionDenied)
+	}
+	Game.OnChangeGame(handler)
 	return nil
 }
 
@@ -63,7 +75,14 @@ func (c *CuratorRAMG) GetGame(
 		return nil, errors.New(errorsStrings.NotFound)
 	}
 	Game := c.game[gameID]
-	return Game.GetGame(userID)
+	if !Game.CheckAccess(userID) {
+		return nil, errors.New(errorsStrings.PermissionDenied)
+	}
+	data, err := Game.GetGame()
+	if err != nil {
+		return nil, errors.New(errorsStrings.SomethingWrong)
+	}
+	return data, nil
 }
 
 func (c *CuratorRAMG) LoginGame(
@@ -78,7 +97,10 @@ func (c *CuratorRAMG) LoginGame(
 		return errors.New(errorsStrings.NotFound)
 	}
 	Game := c.game[gameID]
-	return Game.AddUser(userID, password)
+	if !Game.AddUser(userID, password) {
+		return errors.New(errorsStrings.PermissionDenied)
+	}
+	return nil
 }
 func (c *CuratorRAMG) ChangeGame(
 	token, gameName string, settings defines.Settings,
@@ -102,6 +124,13 @@ func (c *CuratorRAMG) MakeMove(
 	if !ok {
 		return errors.New(errorsStrings.NotFound)
 	}
+
 	Game := c.game[gameID]
-	return Game.Move(userID, from, path)
+	if !Game.CheckAccess(userID) {
+		return errors.New(errorsStrings.PermissionDenied)
+	}
+	if !Game.Move(userID, from, path) {
+		return errors.New(errorsStrings.IncorrectMove)
+	}
+	return nil
 }

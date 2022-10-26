@@ -7,4 +7,5 @@ const (
 	GameAlreadyExist = "game already exist"
 	NotFound         = "not found"
 	IncorrectMove    = "incorrect move"
+	SomethingWrong   = "something went wrong"
 )
