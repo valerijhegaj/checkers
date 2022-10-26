@@ -111,7 +111,7 @@ func (c *GameClass) subscribeBot() {
 			observer := func() {
 				field := c.gamer[ptr].GetField()
 				from, way := c.bot[ptr].GetMove(&field, ptr)
-				c.gamer[ptr].Move(from, way)
+				c.Move(ptr, from, way)
 			}
 			c.Subscribe(observer)
 		}

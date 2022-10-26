@@ -86,10 +86,27 @@ export const getBoard = (gamename) => async (dispatch) => {
 }
 
 export const createConnection = (gamename) => async (dispatch) => {
-  await getBoard(gamename)(dispatch)
-  setTimeout(() => {
-    dispatch(createConnection(gamename))
-  }, 1000)
+  let updateLoop
+  updateLoop = () => {
+    gameAPI.subscribeGame(gamename)
+      .then(response => {
+        let figures = new boardStorage()
+        response.data.figures.forEach((elem) => {
+          figures.Insert(elem.x, elem.y, elem.figure + elem.gamerId.toString())
+        })
+        dispatch(update(figures))
+        setTimeout(() => {getBoard(gamename)(dispatch).then(() => 1).catch(() => 1)}, 100)
+        updateLoop()
+      })
+      .catch(() => 1)
+  }
+  getBoard(gamename)(dispatch).then(() => 1).catch(() => 1)
+  updateLoop()
+
+  //getBoard(gamename)(dispatch).then(()=>1).catch(()=>1)
+  // setTimeout(() => {
+  //   dispatch(createConnection(gamename))
+  // }, 1000)
 }
 
 export const onClickFigure = (i, j) => {
@@ -108,8 +125,5 @@ export const onClickEmpty = (i, j, gamename, from, to) =>
       dispatch(updateTo({x: i, y: j}))
       return
     }
-    let response = await gameAPI.move(gamename, from, to).catch(() => 0)
-    if (response !== undefined) {
-      dispatch(getBoard(gamename))
-    }
+    gameAPI.move(gamename, from, to).then(() => 0).catch(() => 0)
   }
