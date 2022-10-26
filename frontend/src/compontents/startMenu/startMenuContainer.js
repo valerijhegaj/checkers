@@ -1,7 +1,9 @@
-import Connect from "../../redux/react-redux/Connect";
 import {StartMenu} from "./startMenu";
-import {login, register} from "../../usingRedux/redusers/startMenu";
+import {login, register} from "../../store/redusers/ac/startMenu";
+import {connect} from "react-redux";
 
-const StartMenuContainer = Connect(()=>{}, {login,register})(StartMenu)
+const StartMenuContainer = connect(() => {
+  return {state: undefined}
+}, {login, register})(StartMenu)
 
 export default StartMenuContainer

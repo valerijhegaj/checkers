@@ -17,6 +17,8 @@ it will be server to store data
     POST   /api/game        - log in game
     PUT    /api/game        - change settings
     DELETE /api/game        - delete game
+
+    GET /api/game/subscribe      - get game field after somebody make move
     
     
 ## Steps
@@ -99,10 +101,8 @@ it will be server to store data
 ### /api/game
 #### GET
     request:
+      Query: gamename=gamename
       Cookie: token=your_access_token
-      body: {
-        "gamename":gamename
-      }
     response:
       200 - successfully moved
       body: {
@@ -136,5 +136,33 @@ it will be server to store data
       403 - permission denied
       404 - game not found
       500 - something went wrong :-(
-    
+### /api/game/subscribe
+    !warning! you can subscribe later than enemy make turn and be and deadlock
+              to avoid deadlock make please get after some time later subscribe was send
+    request:
+      Query: gamename=gamename
+      Cookie: token=your_access_token
+
+    you will get response after somethin will change in this game
+    response:
+       response:
+      200 - successfully moved
+      body: {
+        "figures": [
+          {
+            "x":int, 
+            "y":int, 
+            "figure":string ("checker", "king"), 
+            "gamer_id":int
+          }
+        ],
+        "turnGamerId": int,
+        "winner": int (-1 if no winner, 0 if winner 0, 1 <-> 1)
+      }
+      400 - bad request
+      401 - not authorized
+      403 - permission denied
+      404 - game not found
+      500 - something went wrong :-(
+
 

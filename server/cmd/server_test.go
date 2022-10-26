@@ -7,7 +7,7 @@ import (
 	"os"
 	"testing"
 
-	core2 "checkers/logic/core"
+	"checkers/logic/core"
 	"checkers/logic/saveLoad"
 	"checkers/server/pkg/defines"
 	"checkers/server/test/api"
@@ -72,10 +72,10 @@ func Test_server(t *testing.T) {
 	}
 
 	gameName1, password1 := "fitstField", "1"
-	firstField := core2.NewStandard8x8Field()
+	firstField := core.NewStandard8x8Field()
 
 	//----------------------test3---------------------------------------
-	// create game, log in, get, move and get
+	// create game, log in, get, moveFirstField and get
 	{
 		code, err := valerijhegaj.CreateGame(
 			gameName1, password1, defines.Settings{},
@@ -110,7 +110,7 @@ func Test_server(t *testing.T) {
 			t.Error(format.ErrorString("without errors", err.Error()))
 		}
 
-		if !core2.IsEqual(&save.Field, &firstField) {
+		if !core.IsEqual(&save.Field, &firstField) {
 			t.Error(format.ErrorField(&firstField, &save.Field))
 		}
 		if save.TurnGamerID != 0 {
@@ -120,8 +120,8 @@ func Test_server(t *testing.T) {
 			t.Error(format.ErrorInt(-1, save.Winner))
 		}
 
-		from := core2.Coordinate{2, 0}
-		to := []core2.Coordinate{{3, 1}}
+		from := core.Coordinate{2, 0}
+		to := []core.Coordinate{{3, 1}}
 
 		code, err = valerijhegaj.Move(gameName1, from, to)
 		if err != nil {
@@ -147,7 +147,7 @@ func Test_server(t *testing.T) {
 		figure := firstField.At(from)
 		figure.Move(&firstField, from, to)
 
-		if !core2.IsEqual(&save.Field, &firstField) {
+		if !core.IsEqual(&save.Field, &firstField) {
 			t.Error(format.ErrorField(&firstField, &save.Field))
 		}
 		if save.TurnGamerID != 1 {
@@ -186,7 +186,7 @@ func Test_server(t *testing.T) {
 
 	//----------------------test4---------------------------------------
 	// try to log in game with wrong password
-	// try without log in to get field, move
+	// try without log in to get field, moveFirstField
 	// try to create game with such name
 	{
 		code, err := aboba.LogInGame(gameName1, password1+"evil")
@@ -214,7 +214,7 @@ func Test_server(t *testing.T) {
 		}
 
 		code, err = aboba.Move(
-			gameName1, core2.Coordinate{5, 1}, []core2.Coordinate{{4, 0}},
+			gameName1, core.Coordinate{5, 1}, []core.Coordinate{{4, 0}},
 		)
 		if err != nil {
 			t.Error(format.ErrorString("without errors", err.Error()))
@@ -236,53 +236,59 @@ func Test_server(t *testing.T) {
 	}
 
 	//----------------------test5---------------------------------------
-	// log in game, get, move and get
-	move := func(
-		isCorrect bool, from core2.Coordinate, to []core2.Coordinate,
-		user *apiParser.User,
-	) {
-		code, err := user.Move(gameName1, from, to)
-		if err != nil {
-			t.Error(format.ErrorString("without errors", err.Error()))
-		}
-		if isCorrect {
-			if code != http.StatusCreated {
-				t.Error(format.ErrorInt(http.StatusCreated, code))
-			}
-			figure := firstField.At(from)
-			figure.Move(&firstField, from, to)
-		} else {
-			if code != http.StatusMethodNotAllowed {
-				t.Error(format.ErrorInt(http.StatusMethodNotAllowed, code))
-			}
-		}
-
-		code, rawSave, err := user.GetGame(gameName1)
-		if err != nil {
-			t.Error(format.ErrorString("without errors", err.Error()))
-		}
-		if code != http.StatusOK {
-			t.Error(format.ErrorInt(http.StatusOK, code))
-		}
-
-		save, err := saveLoad.NewSaveFromRawSave(rawSave)
-		if err != nil {
-			t.Error(format.ErrorString("without errors", err.Error()))
-		}
-		if !core2.IsEqual(&firstField, &save.Field) {
-			t.Error(format.ErrorField(&firstField, &save.Field))
-		}
-	}
+	// log in game, get, moveFirstField and get
 	generateFromTo := func(data []int) (
-		core2.Coordinate, []core2.Coordinate,
+		core.Coordinate, []core.Coordinate,
 	) {
-		from := core2.Coordinate{data[0], data[1]}
-		var to []core2.Coordinate
+		from := core.Coordinate{data[0], data[1]}
+		var to []core.Coordinate
 		for i := 2; i < len(data); i += 2 {
-			to = append(to, core2.Coordinate{data[i], data[i+1]})
+			to = append(to, core.Coordinate{data[i], data[i+1]})
 		}
 		return from, to
 	}
+	moveCreator := func(field *core.Field, gameName string) func(
+		isCorrect bool, from core.Coordinate, to []core.Coordinate,
+		user *apiParser.User,
+	) {
+		return func(
+			isCorrect bool, from core.Coordinate, to []core.Coordinate,
+			user *apiParser.User,
+		) {
+			code, err := user.Move(gameName, from, to)
+			if err != nil {
+				t.Error(format.ErrorString("without errors", err.Error()))
+			}
+			if isCorrect {
+				if code != http.StatusCreated {
+					t.Error(format.ErrorInt(http.StatusCreated, code))
+				}
+				figure := field.At(from)
+				figure.Move(field, from, to)
+			} else {
+				if code != http.StatusMethodNotAllowed {
+					t.Error(format.ErrorInt(http.StatusMethodNotAllowed, code))
+				}
+			}
+
+			code, rawSave, err := user.GetGame(gameName)
+			if err != nil {
+				t.Error(format.ErrorString("without errors", err.Error()))
+			}
+			if code != http.StatusOK {
+				t.Error(format.ErrorInt(http.StatusOK, code))
+			}
+
+			save, err := saveLoad.NewSaveFromRawSave(rawSave)
+			if err != nil {
+				t.Error(format.ErrorString("without errors", err.Error()))
+			}
+			if !core.IsEqual(field, &save.Field) {
+				t.Error(format.ErrorField(field, &save.Field))
+			}
+		}
+	}
+	moveFirstField := moveCreator(&firstField, gameName1)
 
 	{
 		code, err := aboba.LogInGame(gameName1, password1)
@@ -305,44 +311,44 @@ func Test_server(t *testing.T) {
 		if err != nil {
 			t.Error(format.ErrorString("without errors", err.Error()))
 		}
-		if !core2.IsEqual(&firstField, &save.Field) {
+		if !core.IsEqual(&firstField, &save.Field) {
 			t.Error(format.ErrorField(&firstField, &save.Field))
 		}
 
 		from, to := generateFromTo([]int{5, 1, 4, 0})
-		move(true, from, to, aboba)
+		moveFirstField(true, from, to, aboba)
 	}
 
 	//----------------------test6---------------------------------------
 	// 0 try to make wrong moves
-	// 0 move to make 1 move to eat
-	// 1 try move wrong
+	// 0 moveFirstField to make 1 moveFirstField to eat
+	// 1 try moveFirstField wrong
 	// 1 eat two
-	// 0 move to make 1 move to eat
+	// 0 moveFirstField to make 1 moveFirstField to eat
 	// 1 eat
 	{
 		from, to := generateFromTo([]int{3, 1, 2, 0})
-		move(false, from, to, valerijhegaj)
+		moveFirstField(false, from, to, valerijhegaj)
 
 		from, to = generateFromTo([]int{5, 3, 4, 2})
-		move(false, from, to, valerijhegaj)
-		move(false, from, to, aboba)
+		moveFirstField(false, from, to, valerijhegaj)
+		moveFirstField(false, from, to, aboba)
 
 		from, to = generateFromTo([]int{2, 2, 3, 3})
-		move(false, from, to, aboba)
-		move(true, from, to, valerijhegaj)
+		moveFirstField(false, from, to, aboba)
+		moveFirstField(true, from, to, valerijhegaj)
 
 		from, to = generateFromTo([]int{5, 3, 4, 2})
-		move(false, from, to, valerijhegaj)
+		moveFirstField(false, from, to, valerijhegaj)
 
 		from, to = generateFromTo([]int{4, 0, 2, 2, 4, 4})
-		move(true, from, to, aboba)
+		moveFirstField(true, from, to, aboba)
 
 		from, to = generateFromTo([]int{2, 4, 3, 3})
-		move(true, from, to, valerijhegaj)
+		moveFirstField(true, from, to, valerijhegaj)
 
 		from, to = generateFromTo([]int{4, 4, 2, 2})
-		move(true, from, to, aboba)
+		moveFirstField(true, from, to, aboba)
 	}
 
 	//----------------------test7---------------------------------------
@@ -369,5 +375,91 @@ func Test_server(t *testing.T) {
 		if isAuth {
 			t.Error(format.ErrorInt(0, 1))
 		}
+	}
+
+	gameName2, password2 := "test8", "1"
+	field2 := core.NewStandard8x8Field()
+	moveField2 := moveCreator(&field2, gameName2)
+	//----------------------test8---------------------------------------
+	// subscribe
+	{
+		statusCode, err := valerijhegaj.CreateGame(
+			gameName2, password2, defines.Settings{},
+		)
+		if err != nil {
+			t.Error(format.ErrorString("without errors", err.Error()))
+		}
+		if statusCode != http.StatusCreated {
+			t.Error(format.ErrorInt(http.StatusCreated, statusCode))
+		}
+
+		statusCode, _, err = aboba.SubscribeGame(gameName2)
+		if err != nil {
+			t.Error(format.ErrorString("without errors", err.Error()))
+		}
+		if statusCode != http.StatusForbidden {
+			t.Error(format.ErrorInt(http.StatusForbidden, statusCode))
+		}
+
+		aboba2 := apiParser.User{
+			Username: "aboba2", Password: "123", PORT: 4444,
+		}
+		statusCode, _, err = aboba2.SubscribeGame(gameName2)
+		if err != nil {
+			t.Error(format.ErrorString("without errors", err.Error()))
+		}
+		if statusCode != http.StatusUnauthorized {
+			t.Error(format.ErrorInt(http.StatusUnauthorized, statusCode))
+		}
+
+		statusCode, _, err = aboba.SubscribeGame(gameName2 + "evil")
+		if err != nil {
+			t.Error(format.ErrorString("without errors", err.Error()))
+		}
+		if statusCode != http.StatusNotFound {
+			t.Error(format.ErrorInt(http.StatusNotFound, statusCode))
+		}
+
+		statusCode, err = valerijhegaj.LogInGame(gameName2, password2)
+		if err != nil {
+			t.Error(format.ErrorString("without errors", err.Error()))
+		}
+		if statusCode != http.StatusCreated {
+			t.Error(format.ErrorInt(http.StatusCreated, statusCode))
+		}
+		statusCode, err = aboba.LogInGame(gameName2, password2)
+		if err != nil {
+			t.Error(format.ErrorString("without errors", err.Error()))
+		}
+		if statusCode != http.StatusCreated {
+			t.Error(format.ErrorInt(http.StatusCreated, statusCode))
+		}
+
+		go func() {
+			statusCode, rawSave, err := aboba.SubscribeGame(gameName2)
+			if err != nil {
+				t.Error(format.ErrorString("without errors", err.Error()))
+			}
+			if statusCode != http.StatusOK {
+				t.Error(format.ErrorInt(http.StatusOK, statusCode))
+			}
+
+			save, err := saveLoad.NewSaveFromRawSave(rawSave)
+			if err != nil {
+				t.Error(format.ErrorString("without errors", err.Error()))
+			}
+
+			if !core.IsEqual(&save.Field, &field2) {
+				t.Error(format.ErrorField(&field2, &save.Field))
+			}
+			if save.TurnGamerID != 1 {
+				t.Error(format.ErrorInt(1, save.TurnGamerID))
+			}
+			if save.Winner != -1 {
+				t.Error(format.ErrorInt(-1, save.Winner))
+			}
+		}()
+		from, to := generateFromTo([]int{2, 0, 3, 1})
+		moveField2(true, from, to, valerijhegaj)
 	}
 }

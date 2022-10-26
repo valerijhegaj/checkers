@@ -30,6 +30,6 @@ func (c *mapSubscribers) Subscribe(observer func()) func() {
 
 func (c *mapSubscribers) NotifyAll() {
 	for _, observer := range c.observers {
-		observer()
+		go observer()
 	}
 }

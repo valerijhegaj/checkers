@@ -30,6 +30,9 @@ export const gameAPI = {
   },
   move(gamename, from, to) {
     return instance.post('game/move', {gamename, from, to})
+  },
+  subscribeGame(gamename) {
+    return instance.get(`game/subscribe?gamename=${gamename}`)
   }
 }
 

@@ -1,6 +1,6 @@
-import Connect from "../../redux/react-redux/Connect";
-import {startLoad} from "../../usingRedux/redusers/switcher";
+import {startLoad} from "../../store/redusers/switcher";
 import {Switcher} from "./switcher";
+import {connect} from "react-redux";
 
 const mapStateToProps = (state) => {
   return {
@@ -8,6 +8,6 @@ const mapStateToProps = (state) => {
   }
 }
 
-const SwitcherContainer = Connect(mapStateToProps, {startLoad})(Switcher)
+const SwitcherContainer = connect(mapStateToProps, {startLoad})(Switcher)
 
 export default SwitcherContainer
