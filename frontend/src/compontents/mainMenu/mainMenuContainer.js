@@ -1,7 +1,9 @@
-import Connect from "../../redux/react-redux/Connect"
 import {MainMenu} from "./mainMenu";
-import {join, start} from "../../usingRedux/redusers/mainMenu";
+import {singleplayer, multiplayer} from "../../store/redusers/ac/mainMenu";
+import {connect} from "react-redux";
 
-const MainMenuContainer = Connect(() => {}, {join, start})(MainMenu)
+const MainMenuContainer = connect(() => {
+  return {state: undefined}
+}, {singleplayer, multiplayer})(MainMenu)
 
 export default MainMenuContainer
