@@ -5,13 +5,14 @@ export const MainMenu = (props) => {
   return (
     <div className={s.body}>
       <div className={`${s.header}`}>Checkers</div>
-      <button className={buttonStyle}>
+      <button className={buttonStyle} onClick={props.singleplayer}>
         Singleplayer
       </button>
-      <button className={buttonStyle} onClick={props.start}>
+      <button className={buttonStyle} onClick={props.multiplayer}>
         Multiplayer
       </button>
-      <button className={buttonStyle}>
+      <button className={buttonStyle}
+              onClick={() => alert("you won't logout :)")}>
         Logout
       </button>
     </div>

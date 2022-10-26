@@ -1,8 +1,8 @@
 import {Field, reduxForm} from "redux-form";
-import menuStyle from "../common/menu/Menu.module.css";
-import formStyle from "../common/form/Form.module.css";
+import menuStyle from "../../common/menu/Menu.module.css"
+import formStyle from "../../common/form/Form.module.css"
 
-const LoginForm = (props) => {
+const CreateUserForm = (props) => {
   return (
     <form onSubmit={props.handleSubmit} className={menuStyle.body}>
 
@@ -15,20 +15,20 @@ const LoginForm = (props) => {
              className={`${menuStyle.button_text} ${formStyle.input}`}/>
       <button type={"submit"}
               className={`${menuStyle.button_text} ${menuStyle.button}`}>
-        Login
+        Register
       </button>
     </form>
   )
 }
 
-const LoginFormRedux = reduxForm({
-  form: "login"
-})(LoginForm)
+const CreateUserFormRedux = reduxForm({
+  form: "createUser"
+})(CreateUserForm)
 
-const Login = (props) => {
+const CreateUser = (props) => {
   return (
-    <LoginFormRedux onSubmit={props.onSubmit}/>
+    <CreateUserFormRedux onSubmit={props.onSubmit}/>
   )
 }
 
-export default Login
+export default CreateUser

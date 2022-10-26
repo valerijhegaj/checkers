@@ -5,14 +5,20 @@ const ActionTypes = {
 }
 
 export const switcherCondition = {
-  login: 0,
-  createUser: 1,
+  startLoading: 0,
+  startMenu: 1,
+  login: 11,
+  createUser: 12,
+
   mainMenu: 2,
-  startLoading: 3,
-  startMenu: 4,
-  startScreen: 5,
-  joinScreen: 6,
-  gameScreen: 7
+
+  createSingleplayer: 21,
+
+  multiplayer: 22,
+  createMultiplayer: 221,
+  join: 222,
+
+  gameScreen: 3,
 }
 const initialState = {
   condition: switcherCondition.startLoading
