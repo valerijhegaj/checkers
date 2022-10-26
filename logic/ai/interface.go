@@ -1,7 +1,7 @@
 package ai
 
 import (
-	core2 "checkers/logic/core"
+	"checkers/logic/core"
 	"checkers/logic/gamer"
 )
 
@@ -20,7 +20,7 @@ type Ai struct {
 }
 
 func (c *Ai) Move(gamer gamer.Gamer) (
-	core2.Coordinate, []core2.Coordinate,
+	core.Coordinate, []core.Coordinate,
 ) {
 	field := gamer.GetField()
 	from, way := c.GetMove(&field, gamer.GetGamerID())
@@ -30,7 +30,7 @@ func (c *Ai) Move(gamer gamer.Gamer) (
 }
 
 type Mind interface {
-	GetMove(field *core2.Field, gamerID int) (
-		core2.Coordinate, []core2.Coordinate,
+	GetMove(field *core.Field, gamerID int) (
+		core.Coordinate, []core.Coordinate,
 	)
 }
