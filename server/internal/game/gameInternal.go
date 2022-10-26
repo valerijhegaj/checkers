@@ -20,10 +20,11 @@ type Game interface {
 	SubscriberSystem
 }
 
+//--------------------------------------------------------------------
+
 func newGameClass(settings defines.Settings) *GameClass {
-	var c core.GameCore
 	game := GameClass{
-		gamer: [2]gamer.Gamer{{0, &c}, {1, &c}},
+		gamer: gamer.NewGamers(),
 		bot: [2]ai.Ai{
 			ai.NewBot(settings.Level[0]), ai.NewBot(settings.Level[1]),
 		},
@@ -66,6 +67,8 @@ func (c *GameClass) Move(
 		c.gamer[gamerID].GetWinner()
 		isEnd, winner := c.gamer[0].GetWinner()
 		if isEnd {
+			// if somebody won => then nobody can get isMoved = true
+			// so it is thread safety (gamer.move - guarded)
 			c.winner = winner.GamerID
 		}
 		c.NotifyAll()
@@ -109,6 +112,7 @@ func (c *GameClass) subscribeBot() {
 		if c.Settings.Gamer[i] == saveLoad.Bot {
 			ptr := i
 			observer := func() {
+				// field can change only because somebody
 				field := c.gamer[ptr].GetField()
 				from, way := c.bot[ptr].GetMove(&field, ptr)
 				c.Move(ptr, from, way)
