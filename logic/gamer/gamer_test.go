@@ -15,7 +15,7 @@ func TestGamer_GetField(t *testing.T) {
 	field.Put(ptr, core2.TestFigure{0})
 	c.InitField(field)
 
-	gamer := Gamer{0, &c}
+	gamer := PrimitiveGamer{0, &c}
 	fieldInCore := gamer.GetField()
 	if field.BordersRight != fieldInCore.BordersRight ||
 		len(field.Figures) != 1 ||
@@ -35,9 +35,9 @@ func TestGamer_IsTurn(t *testing.T) {
 func TestGamer_Move(t *testing.T) {
 	var c core2.GameCore
 	c.InitField(core2.NewStandard8x8Field())
-	var gamer [2]Gamer
-	gamer[0] = Gamer{0, &c}
-	gamer[1] = Gamer{1, &c}
+	var gamer [2]PrimitiveGamer
+	gamer[0] = PrimitiveGamer{0, &c}
+	gamer[1] = PrimitiveGamer{1, &c}
 	if gamer[0].Move(
 		core2.Coordinate{2, 1}, []core2.Coordinate{{3, 0}},
 	) {
