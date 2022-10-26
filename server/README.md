@@ -137,9 +137,13 @@ it will be server to store data
       404 - game not found
       500 - something went wrong :-(
 ### /api/game/subscribe
+    !warning! you can subscribe later than enemy make turn and be and deadlock
+              to avoid deadlock make please get after some time later subscribe was send
     request:
       Query: gamename=gamename
       Cookie: token=your_access_token
+
+    you will get response after somethin will change in this game
     response:
        response:
       200 - successfully moved

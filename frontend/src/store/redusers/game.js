@@ -102,11 +102,6 @@ export const createConnection = (gamename) => async (dispatch) => {
   }
   getBoard(gamename)(dispatch).then(() => 1).catch(() => 1)
   updateLoop()
-
-  //getBoard(gamename)(dispatch).then(()=>1).catch(()=>1)
-  // setTimeout(() => {
-  //   dispatch(createConnection(gamename))
-  // }, 1000)
 }
 
 export const onClickFigure = (i, j) => {
