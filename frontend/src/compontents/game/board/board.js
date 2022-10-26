@@ -3,6 +3,12 @@ import Plate from "./plate/plate";
 import React from "react"
 
 const Board = (props) => {
+  if (props.winner === 1) {
+    setTimeout(() => {alert("Red win!")}, 30)
+  }
+  if (props.winner === 0) {
+    setTimeout(() => {alert("Blue win!")}, 30)
+  }
   let container = []
   for (let i = 7; i >= 0; i--) {
     for (let j = 0; j < 8; j++) {

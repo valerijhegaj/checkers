@@ -18,14 +18,16 @@ const ActionTypes = {
   update: "update game",
   updateFigures: "update game board",
   updateFrom: "update from game",
-  updateTo: "update to game"
+  updateTo: "update to game",
+  updateWinner: "update winner"
 }
 
 const initialState = {
   figures: new boardStorage(),
   gamename: "",
   from: undefined,
-  to: []
+  to: [],
+  winner: undefined
 }
 
 export const game = (state = initialState, action) => {
@@ -51,6 +53,11 @@ export const game = (state = initialState, action) => {
         ...state,
         to: [...state.to, action.to]
       }
+    case ActionTypes.updateWinner:
+      return {
+        ...state,
+        winner: action.winner
+      }
     default:
       return state
   }
@@ -58,6 +65,10 @@ export const game = (state = initialState, action) => {
 
 export const updateGame = (gamename) => {
   return {type: ActionTypes.update, gamename}
+}
+
+export const setWinner = (winner) => {
+  return {type: ActionTypes.updateWinner, winner}
 }
 
 export const update = (figures) => {
@@ -72,17 +83,19 @@ export const updateFrom = (from) => {
   return {type: ActionTypes.updateFrom, from}
 }
 
-export const getBoard = (gamename) => async (dispatch) => {
-  const response = await gameAPI.getGame(gamename).catch(() => 1)
-  if (response === 1) {
-    return
-  }
+const writeDataToBoard = (dispatch) => (response) => {
   let figures = new boardStorage()
   response.data.figures.forEach((elem) => {
     figures.Insert(elem.x, elem.y, elem.figure + elem.gamerId.toString())
   })
   dispatch(update(figures))
-  console.log("got")
+  dispatch(setWinner(response.data.winner))
+}
+
+export const getBoard = (gamename) => async (dispatch) => {
+  gameAPI.getGame(gamename)
+    .then(writeDataToBoard(dispatch))
+    .catch(() => 1)
 }
 
 export const createConnection = (gamename) => async (dispatch) => {
@@ -90,11 +103,7 @@ export const createConnection = (gamename) => async (dispatch) => {
   updateLoop = () => {
     gameAPI.subscribeGame(gamename)
       .then(response => {
-        let figures = new boardStorage()
-        response.data.figures.forEach((elem) => {
-          figures.Insert(elem.x, elem.y, elem.figure + elem.gamerId.toString())
-        })
-        dispatch(update(figures))
+        writeDataToBoard(dispatch)(response)
         setTimeout(() => {getBoard(gamename)(dispatch).then(() => 1).catch(() => 1)}, 100)
         updateLoop()
       })
