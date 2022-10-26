@@ -1,6 +1,7 @@
 package subscribe
 
 import (
+	"log"
 	"net/http"
 
 	"checkers/server/api"
@@ -30,18 +31,24 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	gameName := r.URL.Query().Get("gamename")
 
 	storage := data.GetGlobalStorage()
+	exit := make(chan int)
 	callback := func(data []byte) {
 		if data == nil {
 			w.WriteHeader(http.StatusInternalServerError)
+			log.Println("Failed to subscribe:", token, "handler")
 			return
 		}
 		w.Write(data)
-		w.WriteHeader(http.StatusOK)
+		log.Println("Successfully send on subscribe field:", gameName)
+		exit <- 1
 	}
 	err := storage.OnChangeGame(token, gameName, callback)
 	if err == nil {
+		<-exit
 		return
 	}
+
+	log.Println("Failed to subscribe:", token)
 	switch err.Error() { //refactor extract method
 	case errorsStrings.NotAuthorized:
 		w.WriteHeader(http.StatusUnauthorized)

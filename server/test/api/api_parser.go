@@ -190,3 +190,29 @@ func (c *User) LogInGame(gameName, password string) (int, error) {
 	res, err := c.client.Do(req)
 	return res.StatusCode, err
 }
+
+func (c *User) SubscribeGame(gameName string) (int, []byte, error) {
+	req, err := http.NewRequest(
+		http.MethodGet,
+		fmt.Sprintf(
+			"http://localhost:%d/api/game/subscribe?gamename=%s", c.PORT,
+			gameName,
+		),
+		nil,
+	)
+	if err != nil {
+		return -1, nil, err
+	}
+
+	c.addCookies(req)
+
+	res, err := c.client.Do(req)
+	if err != nil {
+		return -1, nil, err
+	}
+	if res.StatusCode == http.StatusOK {
+		data, err := io.ReadAll(res.Body)
+		return res.StatusCode, data, err
+	}
+	return res.StatusCode, nil, err
+}
