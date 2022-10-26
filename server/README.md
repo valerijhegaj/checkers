@@ -71,10 +71,8 @@ it will be server to store data
         "gamename":gamename, 
         "password":game_password,
         "settings": {
-          "gamer0":int (0 - man, 1 - bot),
-          "gamer1":int (0 - man, 1 - bot),
-          "level0":int (bot level from 0 - 3),
-          "level1":int
+          "gamer":[int, int] (0 - man, 1 - bot),
+          "level":[int, int] (0 - man, 1 - bot),
         }
       }
     response:

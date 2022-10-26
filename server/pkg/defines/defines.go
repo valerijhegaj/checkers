@@ -1,5 +1,7 @@
 package defines
 
-import "checkers/saveLoad"
+import (
+	"checkers/logic/saveLoad"
+)
 
 type Settings saveLoad.Participants
