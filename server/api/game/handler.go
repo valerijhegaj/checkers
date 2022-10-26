@@ -47,8 +47,6 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	switch r.Method {
-	case http.MethodGet:
-		get(w, token, gameName)
 	case http.MethodPost:
 		login(w, token, gameName, password)
 	case http.MethodPut:

@@ -3,7 +3,7 @@ package api
 import (
 	"encoding/json"
 
-	"checkers/core"
+	"checkers/logic/core"
 	"checkers/server/pkg/defines"
 )
 
