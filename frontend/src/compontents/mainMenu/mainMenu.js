@@ -11,6 +11,9 @@ export const MainMenu = (props) => {
       <button className={buttonStyle} onClick={props.multiplayer}>
         Multiplayer
       </button>
+      <button className={buttonStyle} onClick={props.onContinue}>
+        Continue
+      </button>
       <button className={buttonStyle}
               onClick={() => alert("you won't logout :)")}>
         Logout

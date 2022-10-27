@@ -13,9 +13,11 @@ export const Game = (props) => {
     props.onClickFigure(i, j)
   }
   return (
-    <Board figures={props.state.figures}
-           onClickEmpty={onClickEmpty}
-           onClickFigure={onClickFigure}
-           winner={props.state.winner} />
+    <div>
+      <Board figures={props.state.figures}
+             onClickEmpty={onClickEmpty}
+             onClickFigure={onClickFigure}
+             winner={props.state.winner}/>
+    </div>
   )
 }

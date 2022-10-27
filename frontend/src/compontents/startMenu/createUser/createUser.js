@@ -17,6 +17,7 @@ const CreateUserForm = (props) => {
               className={`${menuStyle.button_text} ${menuStyle.button}`}>
         Register
       </button>
+      <div className={formStyle.text}>{props.error}</div>
     </form>
   )
 }
@@ -27,7 +28,7 @@ const CreateUserFormRedux = reduxForm({
 
 const CreateUser = (props) => {
   return (
-    <CreateUserFormRedux onSubmit={props.onSubmit}/>
+    <CreateUserFormRedux {...props}/>
   )
 }
 

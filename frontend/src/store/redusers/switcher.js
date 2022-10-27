@@ -18,6 +18,8 @@ export const switcherCondition = {
   createMultiplayer: 221,
   join: 222,
 
+  onContinue: 23,
+
   gameScreen: 3,
 }
 const initialState = {

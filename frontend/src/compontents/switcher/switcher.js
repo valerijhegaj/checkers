@@ -11,6 +11,8 @@ import MultiplayerContainer
 import CreateMultiplayerContainer
   from "../mainMenu/createGame/createMultiplayerContainer";
 import JoinContainer from "../mainMenu/createGame/joinContainer";
+import ContinueContainer
+  from "../mainMenu/createGame/continueContainer";
 
 export const Switcher = (props) => {
   switch (props.state.condition) {
@@ -37,6 +39,9 @@ export const Switcher = (props) => {
       return <CreateMultiplayerContainer />
     case switcherCondition.join:
       return <JoinContainer />
+
+    case switcherCondition.onContinue:
+      return <ContinueContainer />
 
     case switcherCondition.gameScreen:
       return <GameContainer />

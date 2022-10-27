@@ -3,7 +3,7 @@ import {Field, reduxForm} from "redux-form";
 import formStyle from "../../common/form/Form.module.css";
 
 export const LogInGameForm = (props) => {
-  const input =  `${menuStyle.button_text} ${formStyle.input}`
+  const input = `${menuStyle.button_text} ${formStyle.input}`
   const button = `${menuStyle.button_text} ${menuStyle.button}`
 
   return (
@@ -13,9 +13,12 @@ export const LogInGameForm = (props) => {
              name={"gamename"} className={input}/>
       <Field placeholder={"password"} component={"input"}
              name={"password"} className={input}/>
-      <button type={"submit"} className={button} >
+      <button type={"submit"} className={button}>
         {props.SubmitName}
       </button>
+      <div className={formStyle.text}>
+        {props.error}
+      </div>
     </form>
   )
 }
@@ -27,7 +30,8 @@ const LogInGameFormRedux = reduxForm({
 
 const LogInGameCreator = (SubmitName) => (props) => {
   return (
-    <LogInGameFormRedux {...props} SubmitName={SubmitName}/>
+    <LogInGameFormRedux {...props} SubmitName={SubmitName}
+                        messeage={"wrong"}/>
   )
 }
 

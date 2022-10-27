@@ -3,7 +3,7 @@ import menuStyle from "../../common/menu/Menu.module.css";
 import formStyle from "../../common/form/Form.module.css";
 
 const LoginForm = (props) => {
-  const input =  `${menuStyle.button_text} ${formStyle.input}`
+  const input = `${menuStyle.button_text} ${formStyle.input}`
   const button = `${menuStyle.button_text} ${menuStyle.button}`
 
   return (
@@ -16,6 +16,7 @@ const LoginForm = (props) => {
       <button type={"submit"} className={button}>
         Login
       </button>
+      <div className={formStyle.text}>{props.error}</div>
     </form>
   )
 }
@@ -26,7 +27,7 @@ const LoginFormRedux = reduxForm({
 
 const Login = (props) => {
   return (
-    <LoginFormRedux onSubmit={props.onSubmit}/>
+    <LoginFormRedux {...props}/>
   )
 }
 

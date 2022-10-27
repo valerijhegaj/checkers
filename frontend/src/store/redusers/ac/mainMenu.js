@@ -1,9 +1,13 @@
 import {switcherCondition, updateSwitcher} from "../switcher";
 
-export const singleplayer = () => async (dispatch) => {
-  dispatch(updateSwitcher(switcherCondition.createSingleplayer))
+export const singleplayer = () => {
+  return updateSwitcher(switcherCondition.createSingleplayer)
 }
 
-export const multiplayer = () => async (dispatch) => {
-  dispatch(updateSwitcher(switcherCondition.multiplayer))
+export const multiplayer = () =>  {
+  return  updateSwitcher(switcherCondition.multiplayer)
+}
+
+export const onContinue = () => {
+  return updateSwitcher(switcherCondition.onContinue)
 }
