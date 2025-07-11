@@ -1,23 +1,29 @@
-# Checkers
+<!--
+*** O God, source of order and wisdom,
+*** Bless the work of our hands.
+*** Let there be clarity in our minds,
+*** Precision in our code,
+*** And peace in our deployments.
+*** Grant us patience in debugging,
+*** Foresight in design,
+*** And strength in the face of unexpected behavior.
+*** Deliver us from silent failures,
+*** From lost data and race conditions,
+*** From bugs that vanish when observed.
+*** May our systems be stable,
+*** Our logic sound,
+*** And our efforts not in vain.
+*** Amen.
+-->
 
-it's a simple checkers
-`bash
-echo
-`
+# Checkers online
 
-## Rules
-- checkers move diagonally on one square only towards the opponent
-- queens walk diagonally on any number of cells in any direction
-- checkers eat by jumping over the opponent when he is nearby
-- queens can eat by jumping over one checker from anywhere and anywhere diagonally
-- you can eat as much as you want in a row and not necessarily have the maximum amount
-- if you can eat, you must eat
-- when the end of the field is reached, the checkers become kings
+A real-time online checkers game built for both casual play and competitive matches. Play against friends, random opponents, or AI.
 
-## Control
-- to go click second in the end of the turn
+## License
+[LICENSE](./LICENSE)
 
-## Report bugs / questions
+## Contact
 
-Telegram: @valerijhegaj \
+telegram: [@valerijhegaj](https://t.me/valerijhegaj) \
 email: valerijhegaj@gmail.com
