@@ -1,4 +1,4 @@
-mod board;
+mod behavior;
 mod engine;
-mod movement;
-mod piece;
+mod model;
+mod rules;

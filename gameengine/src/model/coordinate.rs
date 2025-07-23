@@ -1,9 +1,9 @@
-use super::direction::Direction;
+use super::Direction;
 
 #[derive(PartialEq, Clone, Hash, Eq, Debug)]
 pub struct Coordinate {
-    col: usize,
     row: usize,
+    col: usize,
 }
 
 impl std::ops::AddAssign<&Direction> for Coordinate {
@@ -20,7 +20,7 @@ impl ToString for Coordinate {
 }
 
 impl Coordinate {
-    pub fn new(col: usize, row: usize) -> Coordinate {
+    pub fn new(row: usize, col: usize) -> Coordinate {
         Coordinate { col: col, row: row }
     }
 
