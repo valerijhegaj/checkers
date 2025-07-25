@@ -574,21 +574,21 @@ fn predict_via_alpha_beta_min_max<E, S, TS>(
     player: &Player,
     depth: u8,
 ) -> Option<E> {
-    let mut bestEdge = None;
-    let mut bestScore = MIN;
+    let mut best_edge = None;
+    let mut best_score = MIN;
 
     for edge in node.edge_to_children() {
         let state = node.apply(&edge);
         let value = alpha_beta(node, player, depth - 1, MIN, MAX, false);
         node.unapply(&edge, state);
 
-        if value >= bestScore {
-            bestScore = value;
-            bestEdge = Some(edge);
+        if value >= best_score {
+            best_score = value;
+            best_edge = Some(edge);
         }
     }
 
-    bestEdge
+    best_edge
 }
 
 fn alpha_beta<E, S, TS>(
@@ -645,38 +645,6 @@ fn alpha_beta<E, S, TS>(
     }
 
     return value;
-}
-
-fn print_bitboard(mask: u32) {
-    println!("  +-----------------+");
-
-    let mut bit_index = 0;
-
-    for row in 0..8 {
-        print!("{} |", 8 - row);
-
-        for col in 0..8 {
-            if (row + col) % 2 == 1 {
-                let bit = 1 << bit_index;
-                bit_index += 1;
-
-                let is_exist = mask & bit != 0;
-
-                let symbol = match is_exist {
-                    true => "■",
-                    _ => ".",
-                };
-                print!(" {}", symbol);
-            } else {
-                print!("  "); // белая клетка — не игровая
-            }
-        }
-
-        println!(" |");
-    }
-
-    println!("  +-----------------+");
-    println!("    A B C D E F G H");
 }
 
 fn print_board(board: &BitBoard) {
@@ -758,23 +726,7 @@ fn main() {
     // println!("{:?}", best_move);
     // print_board(&russian_rule.board);
 
-    let mut russian_rule = RussianRule {
-        board: BitBoard {
-            white: 1 << 31
-                | 1 << 28
-                | 1 << 27
-                | 1 << 26
-                | 1 << 25
-                | 1 << 24
-                | 1 << 20
-                | 1 << 15
-                | 1 << 12,
-            black: 1 << 0 | 1 << 1 | 1 << 2 | 1 << 3 | 1 << 4 | 1 << 5 | 1 << 9 | 1 << 14 | 1 << 17,
-            king: 0,
-        },
-        player: WHITE,
-        counter: 0,
-    };
+    let mut russian_rule = RussianRule::new();
 
     loop {
         print_board(&russian_rule.board);
@@ -798,12 +750,17 @@ fn main() {
             .read_line(&mut input)
             .expect("Ошибка ввода");
 
-        let numbers: Vec<u8> = input
+        let numbers_opt: Option<Vec<u8>> = input
             .trim()
             .split_whitespace()
             .map(|s| s.parse::<u8>())
             .collect::<Result<Vec<_>, _>>()
-            .expect("Неверный формат чисел");
+            .ok();
+
+        let numbers = match numbers_opt {
+            Some(num) => num,
+            None => continue,
+        };
 
         if numbers.len() != 2 {
             println!("Нужно ввести ровно два числа!");
@@ -839,46 +796,5 @@ fn main() {
         println!("⏱ Выполнено за: {:?}", duration);
 
         russian_rule.apply(&best_move);
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_shift_left_down() {
-        assert_eq!(shift_left_down(1 << 3), 1 << 7);
-        assert_eq!(shift_left_down(1 << 7), 1 << 10);
-        assert_eq!(shift_left_down(1 << 0), 1 << 4);
-        assert_eq!(shift_left_down(1 << 4), 0);
-        assert_eq!(shift_left_down(1 << 28), 0);
-    }
-
-    #[test]
-    fn test_shift_right_down() {
-        assert_eq!(shift_right_down(1 << 0), 1 << 5);
-        assert_eq!(shift_right_down(1 << 3), 0);
-        assert_eq!(shift_right_down(1 << 4), 1 << 8);
-        assert_eq!(shift_right_down(1 << 5), 1 << 9);
-        assert_eq!(shift_right_down(1 << 28), 0);
-    }
-
-    #[test]
-    fn test_shift_left_up() {
-        assert_eq!(shift_left_up(1 << 29), 1 << 24);
-        assert_eq!(shift_left_up(1 << 24), 1 << 20);
-        assert_eq!(shift_left_up(1 << 31), 1 << 26);
-        assert_eq!(shift_left_up(1 << 20), 0);
-        assert_eq!(shift_left_up(1 << 0), 0);
-    }
-
-    #[test]
-    fn test_shift_right_up() {
-        assert_eq!(shift_right_up(1 << 28), 1 << 24);
-        assert_eq!(shift_right_up(1 << 31), 1 << 27);
-        assert_eq!(shift_right_up(1 << 24), 1 << 21);
-        assert_eq!(shift_right_up(1 << 27), 0);
-        assert_eq!(shift_right_up(1 << 0), 0);
     }
 }

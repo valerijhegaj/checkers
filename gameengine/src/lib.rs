@@ -1,4 +1,3 @@
-mod behavior;
-mod engine;
+mod algorithms;
 mod model;
-mod rules;
+mod movement;
